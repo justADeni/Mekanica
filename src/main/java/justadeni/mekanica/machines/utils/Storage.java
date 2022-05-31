@@ -62,8 +62,6 @@ public class Storage {
             gson.toJson(machines.get(coords), writer);
             writer.flush();
             writer.close();
-
-            //No need to remove from Map if server closes
         }
     }
 
