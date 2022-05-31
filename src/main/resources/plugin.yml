@@ -1,0 +1,10 @@
+name: Mekanica
+version: '${project.version}'
+main: justadeni.mekanica.Mekanica
+depend: [SmartInvs]
+api-version: 1.18
+load: STARTUP
+commands:
+  mekanica:
+    description: base mekanica command
+    usage: /<command>
