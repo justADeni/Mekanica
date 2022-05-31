@@ -15,9 +15,19 @@ public class Storage {
 
     private static HashMap<Coords, Object> machines = new HashMap<>();
 
-    public static <T> void createMachine(T type, Coords coords) throws IOException {
+    //TODO: redo this to be compatible with all types
+    public static <T> HashMap createMachine(T type, Coords coords) throws IOException {
 
-        machines.put(coords, type);
+        if (type instanceof Coal){
+            //Coal coal = new Coal((Integer) arrayList.get(0),(Integer) arrayList.get(1),(ArrayList)arrayList.get(2), (Short) arrayList.get(3), (Integer) arrayList.get(4), (Byte) arrayList.get(5));
+
+            Coal coal = (Coal) type;
+            machines.put(coords, coal);
+            saveAllMachines();
+
+            return machines;
+        }
+        return null;
     }
 
     public static void removeMachine(Coords coords){
@@ -52,6 +62,8 @@ public class Storage {
             gson.toJson(machines.get(coords), writer);
             writer.flush();
             writer.close();
+
+            //No need to remove from Map if server closes
         }
     }
 
