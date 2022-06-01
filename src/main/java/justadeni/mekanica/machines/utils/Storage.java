@@ -1,6 +1,5 @@
 package justadeni.mekanica.machines.utils;
 
-import com.google.common.reflect.ClassPath;
 import com.google.gson.Gson;
 import justadeni.mekanica.Mekanica;
 import justadeni.mekanica.machines.generators.Coal;
@@ -19,15 +18,17 @@ public class Storage {
 
     public static <T> HashMap createMachine(T type, Coords coords) throws IOException {
 
-
         if (type instanceof Coal coal){
             machines.put(coords, coal);
         } else if (type instanceof Solar solar){
             machines.put(coords, solar);
         } else if (type instanceof Stirling stirling){
             machines.put(coords, stirling);
+        } else {
+            return null;
         }
 
+        saveMachine(coords);
         return machines;
     }
 
