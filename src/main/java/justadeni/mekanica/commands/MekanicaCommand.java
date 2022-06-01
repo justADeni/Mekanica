@@ -22,7 +22,7 @@ public class MekanicaCommand implements CommandExecutor {
 
                         case "create" -> {
                             Storage.createMachine(Coal.getNew(), Coords.fromString("World,0,0,0"));
-                            Storage.saveMachine(Coords.fromString("World,0,0,0"));
+                            //Storage.saveMachine(Coords.fromString("World,0,0,0"));
                             sender.sendMessage("Mekanica machines created");
                         }
                         case "load" -> {

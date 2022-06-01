@@ -4,6 +4,8 @@ import com.google.common.reflect.ClassPath;
 import com.google.gson.Gson;
 import justadeni.mekanica.Mekanica;
 import justadeni.mekanica.machines.generators.Coal;
+import justadeni.mekanica.machines.generators.Solar;
+import justadeni.mekanica.machines.generators.Stirling;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -15,19 +17,18 @@ public class Storage {
 
     private static HashMap<Coords, Object> machines = new HashMap<>();
 
-    //TODO: redo this to be compatible with all types
     public static <T> HashMap createMachine(T type, Coords coords) throws IOException {
 
-        if (type instanceof Coal){
-            //Coal coal = new Coal((Integer) arrayList.get(0),(Integer) arrayList.get(1),(ArrayList)arrayList.get(2), (Short) arrayList.get(3), (Integer) arrayList.get(4), (Byte) arrayList.get(5));
 
-            Coal coal = (Coal) type;
+        if (type instanceof Coal coal){
             machines.put(coords, coal);
-            saveAllMachines();
-
-            return machines;
+        } else if (type instanceof Solar solar){
+            machines.put(coords, solar);
+        } else if (type instanceof Stirling stirling){
+            machines.put(coords, stirling);
         }
-        return null;
+
+        return machines;
     }
 
     public static void removeMachine(Coords coords){

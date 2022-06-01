@@ -3,6 +3,7 @@ package justadeni.mekanica.machines.utils;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClassHelper {
