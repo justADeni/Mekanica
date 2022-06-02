@@ -1,4 +1,4 @@
-package justadeni.mekanica.machines.utils;
+package justadeni.mekanica.utils;
 
 import com.google.gson.Gson;
 import justadeni.mekanica.Mekanica;
@@ -16,20 +16,20 @@ public class Storage {
 
     private static HashMap<Coords, Object> machines = new HashMap<>();
 
-    public static <T> HashMap createMachine(T type, Coords coords) throws IOException {
+    public static <T> void createMachine(T type, Coords coords) throws IOException {
 
+        /*
         if (type instanceof Coal coal){
             machines.put(coords, coal);
         } else if (type instanceof Solar solar){
             machines.put(coords, solar);
         } else if (type instanceof Stirling stirling){
             machines.put(coords, stirling);
-        } else {
-            return null;
         }
+        */
+        //saveMachine(coords);
 
-        saveMachine(coords);
-        return machines;
+
     }
 
     public static void removeMachine(Coords coords){
@@ -49,7 +49,6 @@ public class Storage {
             return null;
         }
     }
-
 
 
     public static void saveAllMachines() throws IOException {

@@ -1,6 +1,7 @@
 package justadeni.mekanica;
 
 import justadeni.mekanica.commands.MekanicaCommand;
+import justadeni.mekanica.listeners.BlockPlace;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,10 +18,17 @@ public final class Mekanica extends JavaPlugin {
     @SneakyThrows
     @Override
     public void onEnable() {
-        // Plugin startup logic
         Bukkit.getConsoleSender().sendMessage("Mekanica enabled");
 
         plugin = this;
+
+        getCommand("mekanica").setExecutor(new MekanicaCommand());
+
+        getServer().getPluginManager().registerEvents(new BlockPlace(), plugin);
+
+
+
+        //Storage.loadAllMachines();
 
         /*
         new BukkitRunnable() {
@@ -31,10 +39,6 @@ public final class Mekanica extends JavaPlugin {
             }
         }.runTaskTimerAsynchronously(plugin, 0,5*60*20);
         */
-
-        getCommand("mekanica").setExecutor(new MekanicaCommand());
-
-        //Storage.loadAllMachines();
     }
 
 

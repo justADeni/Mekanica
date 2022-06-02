@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public abstract class Machine {
 
+
     private int RF;
     private int limit;
 

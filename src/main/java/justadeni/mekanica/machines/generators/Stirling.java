@@ -1,12 +1,16 @@
 package justadeni.mekanica.machines.generators;
 
+import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Material;
 
 @Getter
 @Setter
 public class Stirling extends Machine {
+
+    public final static ItemManager itemManager = new ItemManager(2,"Stirling Generator", Material.BLAST_FURNACE);
 
     private short production;
     private int fuel;

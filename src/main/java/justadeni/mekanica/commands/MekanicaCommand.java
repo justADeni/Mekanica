@@ -1,9 +1,9 @@
 package justadeni.mekanica.commands;
 
-import justadeni.mekanica.machines.items.ItemManager;
-import justadeni.mekanica.machines.utils.Coords;
+import justadeni.mekanica.items.ItemManager;
+import justadeni.mekanica.utils.Coords;
 import justadeni.mekanica.machines.generators.Coal;
-import justadeni.mekanica.machines.utils.Storage;
+import justadeni.mekanica.utils.Storage;
 import lombok.SneakyThrows;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -11,7 +11,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 public class MekanicaCommand implements CommandExecutor {
 
@@ -44,7 +43,8 @@ public class MekanicaCommand implements CommandExecutor {
                                 ItemStack item = ItemManager.getItem(Integer.parseInt(args[1]));
                                 Player p = (Player) sender;
 
-                                if (p.getInventory().getItemInMainHand().equals(new ItemStack(Material.AIR))){
+                                if (p.getInventory().getItemInMainHand().getType() == Material.AIR) {
+
                                     p.getInventory().setItemInMainHand(item);
                                     sender.sendMessage("Mekanica item recieved");
                                 } else {
