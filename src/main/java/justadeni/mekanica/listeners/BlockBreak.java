@@ -14,7 +14,6 @@ public class BlockBreak implements Listener {
         Coords coords = Coords.fromLocation(e.getBlock().getLocation());
 
         Mekanica.log("Block Break");
-        Mekanica.log("Location " + e.getBlock().getLocation());
         Mekanica.log("Coords " + Coords.toString(coords));
         Mekanica.log("HashMap " + Storage.getMachine(coords));
         Mekanica.log("");

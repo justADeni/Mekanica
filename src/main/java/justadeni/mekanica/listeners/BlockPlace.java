@@ -25,8 +25,8 @@ public class BlockPlace implements Listener {
                 Storage.saveMachine(coords);
 
                 Mekanica.log("Block place");
-                Mekanica.log(Coords.toString(coords));
-                Mekanica.log(Storage.getMachine(coords).toString());
+                Mekanica.log("Coords " + Coords.toString(coords));
+                Mekanica.log("HashMap " + Storage.getMachine(coords).toString());
                 Mekanica.log("");
             }
     }

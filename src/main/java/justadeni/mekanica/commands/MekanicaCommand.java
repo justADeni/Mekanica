@@ -24,17 +24,15 @@ public class MekanicaCommand implements CommandExecutor {
                     case 1 -> {
                         switch (args[0]) {
 
-                            case "create" -> {
-                                Storage.createMachine(Coal.getNew(), Coords.fromString("World,0,0,0"));
-                                //Storage.saveMachine(Coords.fromString("World,0,0,0"));
-                                sender.sendMessage("Mekanica machine created");
+                            case "saveall" -> {
+                                Storage.saveAllMachines();
+                                sender.sendMessage("Mekanica machines saved");
                             }
-                            case "load" -> {
+                            case "loadall" -> {
                                 Storage.loadAllMachines();
                                 sender.sendMessage("Mekanica machines loaded");
                             }
                             default -> sender.sendMessage("wrong arguments");
-
                         }
                     }
                     case 2 -> {

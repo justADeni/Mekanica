@@ -11,7 +11,7 @@ import java.util.*;
 
 public class Storage {
 
-    private static HashMap<Coords, Object> machines = new HashMap<>();
+    private static final HashMap<Coords, Object> machines = new HashMap<>();
 
     public static <T> void createMachine(T type, Coords coords) throws IOException {
 
@@ -26,6 +26,7 @@ public class Storage {
         return machines.get(coords);
     }
 
+    /*
     public static Object updateMachine(Coords coords, Object newMachine){
 
         if (machines.containsKey(coords)) {
@@ -35,7 +36,7 @@ public class Storage {
             return null;
         }
     }
-
+    */
 
     public static void deleteMachineFile(Coords coords){
         File file = new File(Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" +
