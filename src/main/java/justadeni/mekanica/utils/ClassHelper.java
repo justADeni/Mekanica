@@ -5,6 +5,9 @@ import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
 import justadeni.mekanica.items.ItemManager;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,9 +53,9 @@ public class ClassHelper {
     }
 
 
-    private static Class getClassById(int id) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
+    private static Class getClassById(int id) throws Exception {
         for (Class aClass : getMachineClasses()){
-            ItemManager itemManager = (ItemManager) aClass.getDeclaredField("itemManager").get(null);
+            ItemManager itemManager = (ItemManager) aClass.getField("itemManager").get(null);
             if (itemManager.getId() == id){
                 return aClass;
             }
@@ -60,19 +63,19 @@ public class ClassHelper {
         return null;
     }
 
-    public static int getIdByClass(Class clazz) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
+    public static int getIdByClass(Class clazz) throws Exception {
         for (Class aClass : getMachineClasses()){
             if (aClass.equals(clazz)){
-                ItemManager itemManager = (ItemManager) aClass.getDeclaredField("itemManager").get(null);
+                ItemManager itemManager = (ItemManager) aClass.getField("itemManager").get(null);
                 return itemManager.getId();
             }
         }
         return 0;
     }
 
-    public static ItemManager getItemManager(int id) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
+    public static ItemManager getItemManager(int id) throws Exception {
         for (Class aClass : getMachineClasses()){
-            ItemManager itemManager = (ItemManager) aClass.getDeclaredField("itemManager").get(null);
+            ItemManager itemManager = (ItemManager) aClass.getField("itemManager").get(null);
             if (itemManager.getId() == id){
                 return itemManager;
             }
@@ -80,10 +83,10 @@ public class ClassHelper {
         return null;
     }
 
-    //TODO: this throws errors
-    public static Class getNewClassObject(int id) throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
+    public static Class getNewClassObject(int id) throws Exception{
         Class aClass = getClassById(id);
-        return (Class) aClass.getDeclaredField("getNew").get(null);
+        Method method = aClass.getMethod("getNew");
+        return (Class) method.invoke(null);
     }
 
 }

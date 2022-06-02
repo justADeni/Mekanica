@@ -26,7 +26,7 @@ public class ItemManager {
         this.material = material;
     }
 
-    public static ItemStack getItem(int id) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
+    public static ItemStack getItem(int id) throws Exception {
         ItemManager itemManager = ClassHelper.getItemManager(id);
         return ItemMaker(id, itemManager.getDisplayName(), itemManager.getMaterial());
     }

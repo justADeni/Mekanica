@@ -12,11 +12,12 @@ import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.units.qual.C;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class BlockPlace implements Listener {
 
     @EventHandler
-    public void onBlockPlace(BlockPlaceEvent e) throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException, IOException {
+    public void onBlockPlace(BlockPlaceEvent e) throws Exception {
 
             ItemStack item = e.getItemInHand();
             int id = ItemManager.getId(item);
