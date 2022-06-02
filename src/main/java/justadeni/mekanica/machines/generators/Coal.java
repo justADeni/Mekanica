@@ -11,7 +11,9 @@ import org.bukkit.Material;
 public class Coal extends Machine{
 
     public final static ItemManager itemManager = new ItemManager(1,"Coal Generator", Material.DROPPER);
-
+    public static Coal getNew(){
+        return new Coal(0, 80000, (short) 20, 0, (byte) 0);
+    }
     private short production;
     private int fuel;
     private byte progress;
@@ -24,7 +26,7 @@ public class Coal extends Machine{
     }
 
     @Override
-    public void produce(){
+    public void produce() {
         if (getRF() < getLimit()) { //checks if RF storage isn't full
 
             if (progress < 100) { //continues consuming fuel
@@ -43,10 +45,6 @@ public class Coal extends Machine{
 
             }
         }
-    }
-
-    public static Coal getNew(){
-        return new Coal(0, 80000, (short) 20, 0, (byte) 0);
     }
 
 

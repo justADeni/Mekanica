@@ -11,7 +11,9 @@ import org.bukkit.Material;
 public class Stirling extends Machine {
 
     public final static ItemManager itemManager = new ItemManager(2,"Stirling Generator", Material.BLAST_FURNACE);
-
+    public static Coal getNew(){
+        return new Coal(0, 80000, (short) 10, 0, (byte) 0);
+    }
     private short production;
     private int fuel;
     private byte progress;
@@ -43,9 +45,5 @@ public class Stirling extends Machine {
 
             }
         }
-    }
-
-    public static Coal getNew(){
-        return new Coal(0, 80000, (short) 10, 0, (byte) 0);
     }
 }

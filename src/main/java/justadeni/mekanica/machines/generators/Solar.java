@@ -10,7 +10,9 @@ import org.bukkit.Material;
 @Setter
 public class Solar extends Machine {
     public final static ItemManager itemManager = new ItemManager(3,"Solar Generator", Material.DAYLIGHT_DETECTOR);
-
+    public static Solar getNew(){
+        return new Solar(0,20000, (short) 5);
+    }
     private short production;
 
     public Solar(int RF, int limit, short production) {
@@ -25,9 +27,5 @@ public class Solar extends Machine {
             setRF(getRF() + production);
 
         }
-    }
-
-    public static Solar getNew(){
-        return new Solar(0,20000, (short) 5);
     }
 }

@@ -31,7 +31,7 @@ public class MekanicaCommand implements CommandExecutor {
                             }
                             case "load" -> {
                                 Storage.loadAllMachines();
-                                sender.sendMessage("Mekanica machine loaded");
+                                sender.sendMessage("Mekanica machines loaded");
                             }
                             default -> sender.sendMessage("wrong arguments");
 

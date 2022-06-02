@@ -24,9 +24,6 @@ public class Coords {
         this.z = z;
     }
 
-    public String getWorldName(){
-        return world;
-    }
     public String getXYZ(){
         return x + "," + y + "," + z;
     }

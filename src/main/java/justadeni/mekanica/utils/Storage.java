@@ -2,9 +2,6 @@ package justadeni.mekanica.utils;
 
 import com.google.gson.Gson;
 import justadeni.mekanica.Mekanica;
-import justadeni.mekanica.machines.generators.Coal;
-import justadeni.mekanica.machines.generators.Solar;
-import justadeni.mekanica.machines.generators.Stirling;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -18,18 +15,7 @@ public class Storage {
 
     public static <T> void createMachine(T type, Coords coords) throws IOException {
 
-        /*
-        if (type instanceof Coal coal){
-            machines.put(coords, coal);
-        } else if (type instanceof Solar solar){
-            machines.put(coords, solar);
-        } else if (type instanceof Stirling stirling){
-            machines.put(coords, stirling);
-        }
-        */
-        //saveMachine(coords);
-
-
+        machines.put(coords, type);
     }
 
     public static void removeMachine(Coords coords){
@@ -51,12 +37,18 @@ public class Storage {
     }
 
 
+    public static void deleteMachineFile(Coords coords){
+        File file = new File(Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" +
+                coords.getWorld() + "/" + machines.get(coords).getClass().getSimpleName() + "/" + coords.getXYZ() + ".json");
+        file.delete();
+    }
+
     public static void saveAllMachines() throws IOException {
 
         for (Coords coords : machines.keySet()) {
             Gson gson = new Gson();
             File file = new File(Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" +
-                    coords.getWorldName() + "/" + machines.get(coords).getClass().getSimpleName() + "/" + coords.getXYZ() + ".json");
+                    coords.getWorld() + "/" + machines.get(coords).getClass().getSimpleName() + "/" + coords.getXYZ() + ".json");
             file.getParentFile().mkdirs();
             file.createNewFile();                                               //   File path will look like:
             Writer writer = new FileWriter(file, false);                //   Mekanica/World/Coal/0,0,0.json
@@ -69,7 +61,7 @@ public class Storage {
     public static void saveChunkMachines(String worldName, int chunkX, int chunkZ) throws IOException {
 
         for (Coords coords : machines.keySet()){
-            if (coords.getWorldName().equals(worldName)){
+            if (coords.getWorld().equals(worldName)){
                 if (coords.getX()/16 == chunkX){
                     if (coords.getZ()/16 == chunkZ){
                         saveMachine(coords);
@@ -83,7 +75,7 @@ public class Storage {
 
         Gson gson = new Gson();
         File file = new File(Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" +
-                coords.getWorldName() + "/" + machines.get(coords).getClass().getSimpleName() + "/" + coords.getXYZ() + ".json");
+                coords.getWorld() + "/" + machines.get(coords).getClass().getSimpleName() + "/" + coords.getXYZ() + ".json");
         file.getParentFile().mkdirs();
 
         if (!file.exists()) {
@@ -96,6 +88,7 @@ public class Storage {
     }
 
     public static void loadAllMachines() throws ClassNotFoundException, IOException {
+
         String basepath = Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/";
         Filewalker filewalker = new Filewalker();
         filewalker.walk(basepath);
@@ -114,6 +107,7 @@ public class Storage {
     }
 
     public static void loadChunkMachines(String worldName, int chunkX, int chunkZ) throws ClassNotFoundException, FileNotFoundException {
+
         String basepath = Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" + worldName + "/";
         Filewalker filewalker = new Filewalker();
         filewalker.walk(basepath);
@@ -140,7 +134,8 @@ public class Storage {
     }
 
     public static void loadMachine(Coords coords) throws ClassNotFoundException, FileNotFoundException {
-        String basepath = Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" + coords.getWorldName() + "/";
+
+        String basepath = Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" + coords.getWorld() + "/";
         Filewalker filewalker = new Filewalker();
         filewalker.walk(basepath);
 

@@ -34,7 +34,7 @@ public class ItemManager {
     public static int getId(ItemStack itemStack){
         try {
             return Integer.parseInt(itemStack.getItemMeta().getLore().get(0).split(" ")[1]);
-        } catch (Error e){
+        } catch (Exception e){
             return 0;
         }
     }

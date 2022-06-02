@@ -83,10 +83,10 @@ public class ClassHelper {
         return null;
     }
 
-    public static Class getNewClassObject(int id) throws Exception{
+    public static Object getNewClassObject(int id) throws Exception{
         Class aClass = getClassById(id);
         Method method = aClass.getMethod("getNew");
-        return (Class) method.invoke(null);
+        return method.invoke(null);
     }
 
 }

@@ -1,6 +1,7 @@
 package justadeni.mekanica;
 
 import justadeni.mekanica.commands.MekanicaCommand;
+import justadeni.mekanica.listeners.BlockBreak;
 import justadeni.mekanica.listeners.BlockPlace;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
@@ -25,7 +26,7 @@ public final class Mekanica extends JavaPlugin {
         getCommand("mekanica").setExecutor(new MekanicaCommand());
 
         getServer().getPluginManager().registerEvents(new BlockPlace(), plugin);
-
+        getServer().getPluginManager().registerEvents(new BlockBreak(), plugin);
 
 
         //Storage.loadAllMachines();
