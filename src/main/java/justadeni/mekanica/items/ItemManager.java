@@ -11,11 +11,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
 public class ItemManager {
-
     private int id;
     private String DisplayName;
     private Material material;

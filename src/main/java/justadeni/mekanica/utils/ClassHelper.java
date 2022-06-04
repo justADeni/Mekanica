@@ -53,7 +53,7 @@ public class ClassHelper {
     }
 
 
-    private static Class getClassById(int id) throws Exception {
+    public static Class getClassById(int id) throws Exception {
         for (Class aClass : getMachineClasses()){
             ItemManager itemManager = (ItemManager) aClass.getField("itemManager").get(null);
             if (itemManager.getId() == id){

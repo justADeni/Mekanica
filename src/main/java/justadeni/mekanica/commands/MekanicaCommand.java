@@ -1,8 +1,6 @@
 package justadeni.mekanica.commands;
 
 import justadeni.mekanica.items.ItemManager;
-import justadeni.mekanica.utils.Coords;
-import justadeni.mekanica.machines.generators.Coal;
 import justadeni.mekanica.utils.Storage;
 import lombok.SneakyThrows;
 import org.bukkit.Material;
