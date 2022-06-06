@@ -4,6 +4,7 @@ import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Location;
 import org.bukkit.Material;
 
 @Getter
@@ -11,21 +12,24 @@ import org.bukkit.Material;
 public class Solar extends Machine {
     public final static ItemManager itemManager = new ItemManager(3,"Solar Generator", Material.DAYLIGHT_DETECTOR);
     public static Solar getNew(){
-        return new Solar(0,20000, (short) 5);
+        return new Solar(0,20000, (short) 0);
     }
-    private short production;
 
     public Solar(int RF, int limit, short production) {
-        super(RF, limit);
-        this.production = production;
+        super(RF, limit, production);
     }
 
     @Override
-    public void produce(){
-        if (getRF() < getLimit()) { //checks if RF storage isn't full
+    public void produce(Location loc){
+        if (getRF() >= getLimit()) {
+            return;
+        }
+        int time = (int) loc.getWorld().getTime();
+        if (time < 12000){
 
-            setRF(getRF() + production);
-
+            int delta = (int)(-0.003*Math.abs(time-6000)+20); //see https://www.desmos.com/calculator/dxskyfv6wi
+            addRF(delta);
+            setProduction((short) delta);
         }
     }
 }

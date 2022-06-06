@@ -20,7 +20,6 @@ public class BlockBreak implements Listener {
 
             int id = ClassHelper.getIdByObject(Storage.getMachine(loc));
             if (id > 0){
-                //e.getBlock().getDrops().add(ItemManager.getItem(id));
                 e.setDropItems(false);
                 e.getBlock().getLocation().getWorld().dropItem(e.getBlock().getLocation(), ItemManager.getItem(id));
             }

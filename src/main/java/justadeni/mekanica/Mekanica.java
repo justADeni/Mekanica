@@ -28,7 +28,6 @@ public final class Mekanica extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockPlace(), plugin);
         getServer().getPluginManager().registerEvents(new BlockBreak(), plugin);
 
-
         //Storage.loadAllMachines();
 
         /*
