@@ -15,7 +15,7 @@ public class Entropy extends Machine {
     public final static ItemManager itemManager = new ItemManager(5,"Entropy Generator", Material.ANVIL);
 
     public static Entropy getNew(){
-        return new Entropy(0, 80000, (short) 0, new ItemStack(Material.AIR), (byte) 0);
+        return new Entropy(0, 10000, (short) 0, new ItemStack(Material.AIR), (byte) 0);
     }
 
     private ItemStack fuel;
