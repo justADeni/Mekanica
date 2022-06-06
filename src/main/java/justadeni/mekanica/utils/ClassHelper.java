@@ -73,6 +73,16 @@ public class ClassHelper {
         return 0;
     }
 
+    public static int getIdByObject(Object obj) throws Exception {
+        for (Class aClass : getMachineClasses()){
+            if (obj.getClass().getName().equals(aClass.getName())){
+                ItemManager itemManager = (ItemManager) aClass.getField("itemManager").get(null);
+                return itemManager.getId();
+            }
+        }
+        return 0;
+    }
+
     public static ItemManager getItemManager(int id) throws Exception {
         for (Class aClass : getMachineClasses()){
             ItemManager itemManager = (ItemManager) aClass.getField("itemManager").get(null);
