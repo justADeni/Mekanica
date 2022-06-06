@@ -3,9 +3,11 @@ package justadeni.mekanica;
 import justadeni.mekanica.commands.MekanicaCommand;
 import justadeni.mekanica.listeners.BlockBreak;
 import justadeni.mekanica.listeners.BlockPlace;
+import justadeni.mekanica.utils.Storage;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.logging.Level;
 
@@ -28,17 +30,6 @@ public final class Mekanica extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockPlace(), plugin);
         getServer().getPluginManager().registerEvents(new BlockBreak(), plugin);
 
-        //Storage.loadAllMachines();
-
-        /*
-        new BukkitRunnable() {
-            @SneakyThrows
-            @Override
-            public void run() {
-                Storage.saveMachines();
-            }
-        }.runTaskTimerAsynchronously(plugin, 0,5*60*20);
-        */
     }
 
 
