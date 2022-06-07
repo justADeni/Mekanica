@@ -32,6 +32,7 @@ public class Entropy extends Machine {
     public void produce(Location loc) {
 
         if (getRF() >= getLimit()) {
+            setProcon((short) 0);
             return;
         }
         if (progress == 0){
@@ -46,7 +47,7 @@ public class Entropy extends Machine {
                     setFuel(new ItemStack(fuel.getType(), fuel.getAmount()-1));
                 }
             } else {
-                setProduction((short) 0);
+                setProcon((short) 0);
                 return;
             }
         } else if (progress <= 90){
@@ -66,6 +67,6 @@ public class Entropy extends Machine {
         progress += 10;
         int delta = 2;
         addRF(delta);
-        setProduction((short) delta);
+        setProcon((short) delta);
     }
 }

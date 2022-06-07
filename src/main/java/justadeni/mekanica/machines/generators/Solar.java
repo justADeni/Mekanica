@@ -22,6 +22,7 @@ public class Solar extends Machine {
     @Override
     public void produce(Location loc){
         if (getRF() >= getLimit()) {
+            setProcon((short) 0);
             return;
         }
         int time = (int) loc.getWorld().getTime();
@@ -29,7 +30,7 @@ public class Solar extends Machine {
 
             int delta = (int)(-0.003*Math.abs(time-6000)+20); //see https://www.desmos.com/calculator/dxskyfv6wi
             addRF(delta);
-            setProduction((short) delta);
+            setProcon((short) delta);
         }
     }
 }

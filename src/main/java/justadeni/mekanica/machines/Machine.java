@@ -3,19 +3,18 @@ package justadeni.mekanica.machines;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
 
 @Getter
 @Setter
 public abstract class Machine {
     private int RF;
     private int limit;
-    private short production;
+    private short procon;
 
-    public Machine(int RF, int limit, short production) {
+    public Machine(int RF, int limit, short procon) {
         this.RF = RF;
         this.limit = limit;
-        this.production = production;
+        this.procon = procon;
     }
 
     public abstract void produce(Location loc);

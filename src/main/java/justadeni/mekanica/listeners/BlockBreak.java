@@ -2,7 +2,7 @@ package justadeni.mekanica.listeners;
 
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.utils.ClassHelper;
-import justadeni.mekanica.utils.Storage;
+import justadeni.mekanica.utils.files.Storage;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;

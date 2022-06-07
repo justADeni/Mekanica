@@ -1,7 +1,7 @@
 package justadeni.mekanica.commands;
 
 import justadeni.mekanica.items.ItemManager;
-import justadeni.mekanica.utils.Storage;
+import justadeni.mekanica.utils.files.Storage;
 import lombok.SneakyThrows;
 import org.bukkit.Material;
 import org.bukkit.command.Command;

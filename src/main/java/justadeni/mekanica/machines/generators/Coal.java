@@ -2,7 +2,7 @@ package justadeni.mekanica.machines.generators;
 
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
-import justadeni.mekanica.utils.BurnTimes;
+import justadeni.mekanica.utils.nms.BurnUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -21,8 +21,8 @@ public class Coal extends Machine{
     private ItemStack fuel;
     private byte progress;
 
-    public Coal( int RF, int limit, short production, ItemStack fuel, byte progress) {
-        super(RF, limit, production);
+    public Coal( int RF, int limit, short procon, ItemStack fuel, byte progress) {
+        super(RF, limit, procon);
         this.fuel = fuel;
         this.progress = progress;
     }
@@ -31,6 +31,7 @@ public class Coal extends Machine{
     public void produce(Location loc) {
 
         if (getRF() >= getLimit()) {
+            setProcon((short) 0);
             return;
         }
         if (progress == 0){
@@ -45,7 +46,7 @@ public class Coal extends Machine{
                     setFuel(new ItemStack(fuel.getType(), fuel.getAmount()-1));
                 }
             } else {
-                setProduction((short) 0);
+                setProcon((short) 0);
                 return;
             }
         } else if (progress <= 90){
@@ -63,9 +64,9 @@ public class Coal extends Machine{
 
     private void work(){
         progress += 10;
-        int delta = BurnTimes.getBurnTime(Material.COAL)/10;
+        int delta = BurnUtils.getBurnTime(Material.COAL)/10;
         addRF(delta);
-        setProduction((short) delta);
+        setProcon((short) delta);
     }
 }
 

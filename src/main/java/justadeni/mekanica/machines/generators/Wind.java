@@ -28,6 +28,7 @@ public class Wind extends Machine {
     @Override
     public void produce(Location loc) {
         if (getRF() >= getLimit()) {
+            setProcon((short) 0);
             return;
         }
         if (loc.getY() > 50) {
@@ -39,7 +40,7 @@ public class Wind extends Machine {
             }
 
             addRF(delta);
-            setProduction((short) delta);
+            setProcon((short) delta);
         }
 
     }

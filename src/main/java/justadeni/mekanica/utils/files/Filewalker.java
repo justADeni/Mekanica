@@ -1,4 +1,4 @@
-package justadeni.mekanica.utils;
+package justadeni.mekanica.utils.files;
 
 import java.io.File;
 import java.nio.file.Path;

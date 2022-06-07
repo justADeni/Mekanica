@@ -2,7 +2,7 @@ package justadeni.mekanica.machines.generators;
 
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
-import justadeni.mekanica.utils.BurnTimes;
+import justadeni.mekanica.utils.nms.BurnUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -29,6 +29,7 @@ public class Stirling extends Machine {
     @Override
     public void produce(Location loc){
         if (getRF() >= getLimit()) {
+            setProcon((short) 0);
             return;
         }
         if (progress == 0){
@@ -43,7 +44,7 @@ public class Stirling extends Machine {
                     setFuel(new ItemStack(fuel.getType(), fuel.getAmount()-1));
                 }
             } else {
-                setProduction((short) 0);
+                setProcon((short) 0);
                 return;
             }
         } else if (progress <= 90){
@@ -60,8 +61,8 @@ public class Stirling extends Machine {
 
     private void work(){
         progress += 10;
-        int delta = BurnTimes.getBurnTime(fuel.getType())/10;
+        int delta = BurnUtils.getBurnTime(fuel.getType())/10;
         addRF(delta);
-        setProduction((short) delta);
+        setProcon((short) delta);
     }
 }
