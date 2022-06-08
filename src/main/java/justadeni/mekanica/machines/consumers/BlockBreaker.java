@@ -9,7 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Dropper;
+import org.bukkit.block.data.Directional;
 import org.bukkit.inventory.ItemStack;
 
 @Getter
@@ -41,7 +41,7 @@ public class BlockBreaker extends Machine {
         Block block = getFacing(loc);
         if (block != null && !block.isEmpty()){
             if (progress == 0){
-                if (Breakability.isBreakable(block)){
+                if (Breakability.isBreakable(block) && (product.getType().isAir() || product.getType().equals(block.getType()))){
                     work();
                 } else {
                     setProcon((short) 0);
@@ -50,6 +50,9 @@ public class BlockBreaker extends Machine {
             } else if (progress <= 80){
                 work();
             } else {
+                if ((product.getType().isAir() || product.getType().equals(block.getType()))){
+                    addProduct(block);
+                }
                 breakBlock(block);
                 work();
                 progress = 0;
@@ -66,8 +69,8 @@ public class BlockBreaker extends Machine {
         setProcon((short) delta);
     }
     private Block getFacing(Location loc){
-        Dropper dropper = (Dropper) loc.getBlock();
-        BlockFace face = dropper.getBlock().getFace(dropper.getBlock());
+        //Dropper dropper = (Dropper) loc.getBlock();
+        BlockFace face = ((Directional) loc.getBlock().getBlockData()).getFacing();
         switch (face){
             case UP -> {
                 return (new Location(loc.getWorld(), loc.getX(), loc.getY()+1, loc.getZ())).getBlock();
@@ -87,8 +90,21 @@ public class BlockBreaker extends Machine {
             case NORTH -> {
                 return (new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()-1)).getBlock();
             }
-            default -> {
+            default    -> {
                 return null;
+            }
+        }
+    }
+
+    private void addProduct(Block block){
+        if (product.getType().isAir()){
+            product = new ItemStack(block.getType(), 1);
+            return;
+        }
+
+        if (product.getAmount() < 64){
+            if (product.getType().equals(block.getType())){
+                product = new ItemStack(product.getType(), product.getAmount()+1);
             }
         }
     }

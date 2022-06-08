@@ -3,7 +3,10 @@ package justadeni.mekanica.utils;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
+import justadeni.mekanica.Mekanica;
 import justadeni.mekanica.items.ItemManager;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +16,21 @@ import java.util.List;
 
 
 public class ClassHelper {
+
+    public static void registerListeners() {
+        try {
+            for (ClassInfo classInfo : new ClassGraph().acceptPackages("justadeni.mekanica.listeners.")
+                    .enableClassInfo().scan().getAllClasses()) {
+
+                Class<?> c = Class.forName(classInfo.getName());
+                if (Listener.class.isAssignableFrom(c)) {
+                    Bukkit.getServer().getPluginManager().registerEvents((Listener) c.getDeclaredConstructor().newInstance(), Mekanica.getPlugin());
+                }
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 
     public static String getFullClassName(String name){
         List<String> classNames;
@@ -33,27 +51,33 @@ public class ClassHelper {
     }
 
 
-    private static List<Class> getMachineClasses() throws ClassNotFoundException {
-        List<ClassInfo> classInfos;
-        try (ScanResult scanResult = new ClassGraph().acceptPackages("justadeni.mekanica.machines.")
-                .enableClassInfo().scan()) {
-            classInfos = scanResult.getAllClasses();
-        }
-        if (!classInfos.isEmpty()) {
-            List<Class> classList = new ArrayList<>();
-            for (ClassInfo info : classInfos){
-                if (!(info.getSimpleName().equals("Machine"))) {
-                    classList.add(Class.forName(info.getName()));
-                }
-            }
-            return classList;
-        }
+    private static List<Class> getMachineClasses() {
+        try {
 
-        return null;
+            List<ClassInfo> classInfos;
+            try (ScanResult scanResult = new ClassGraph().acceptPackages("justadeni.mekanica.machines.")
+                    .enableClassInfo().scan()) {
+                classInfos = scanResult.getAllClasses();
+            }
+            if (!classInfos.isEmpty()) {
+                List<Class> classList = new ArrayList<>();
+                for (ClassInfo info : classInfos) {
+                    if (!(info.getSimpleName().equals("Machine"))) {
+                        classList.add(Class.forName(info.getName()));
+                    }
+                }
+                return classList;
+            }
+
+            return null;
+
+        } catch (ClassNotFoundException e){
+            throw new RuntimeException(e);
+        }
     }
 
 
-    public static Class getClassById(int id) throws Exception {
+    public static Class getClassById(int id) throws Exception{
         for (Class aClass : getMachineClasses()){
             ItemManager itemManager = (ItemManager) aClass.getField("itemManager").get(null);
             if (itemManager.getId() == id){

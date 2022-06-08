@@ -18,7 +18,7 @@ public class Storage {
 
     private static final HashMap<Location, Object> machines = new HashMap<>();
 
-    public static <T> void createMachine(T type, Location loc) throws IOException {
+    public static <T> void createMachine(T type, Location loc) {
 
         machines.put(loc, type);
     }
@@ -29,6 +29,10 @@ public class Storage {
 
     public static Object getMachine(Location loc){
         return machines.get(loc);
+    }
+
+    public static HashMap<Location, Object> getAllMachines(){
+        return machines;
     }
 
     /*
@@ -49,117 +53,165 @@ public class Storage {
         file.delete();
     }
 
-    public static void saveAllMachines() throws IOException {
-
-        for (Location loc : machines.keySet()) {
-            Gson gson = new Gson();
-            File file = new File(Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" +
-                    loc.getWorld().getName() + "/" + machines.get(loc).getClass().getSimpleName() + "/" + LocHelper.getXYZ(loc) + ".json");
-            file.getParentFile().mkdirs();
-            file.createNewFile();                                               //   File path will look like:
-            Writer writer = new FileWriter(file, false);                //   Mekanica/World/Coal/0,0,0.json
-            gson.toJson(machines.get(loc), writer);
-            writer.flush();
-            writer.close();
+    public static void saveAllMachines() {
+        try {
+            for (Location loc : machines.keySet()) {
+                Gson gson = new Gson();
+                File file = new File(Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" +
+                        loc.getWorld().getName() + "/" + machines.get(loc).getClass().getSimpleName() + "/" + LocHelper.getXYZ(loc) + ".json");
+                file.getParentFile().mkdirs();
+                file.createNewFile();                                               //   File path will look like:
+                Writer writer = new FileWriter(file, false);                //   Mekanica/World/Coal/0,0,0.json
+                gson.toJson(machines.get(loc), writer);
+                writer.flush();
+                writer.close();
+            }
+        } catch (IOException e){
+            throw new RuntimeException(e);
         }
     }
 
-    public static void saveChunkMachines(String worldName, int chunkX, int chunkZ) throws IOException {
+    public static void saveChunkMachines(String worldName, int chunkX, int chunkZ) {
 
-        for (Location loc : machines.keySet()){
-            if (loc.getWorld().getName().equals(worldName)){
-                if (loc.getX()/16 == chunkX){
-                    if (loc.getZ()/16 == chunkZ){
-                        saveMachine(loc);
+        try {
+
+            for (Location loc : machines.keySet()) {
+                if (loc.getWorld().getName().equals(worldName)) {
+                    if (loc.getX() / 16 == chunkX) {
+                        if (loc.getZ() / 16 == chunkZ) {
+                            saveMachine(loc);
+                        }
                     }
                 }
             }
+
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void saveAndRemoveChunkMachines(String worldName, int chunkX, int chunkZ) {
+        try {
+
+            for (Location loc : machines.keySet()) {
+                if (loc.getWorld().getName().equals(worldName)) {
+                    if (loc.getX() / 16 == chunkX) {
+                        if (loc.getZ() / 16 == chunkZ) {
+                            saveMachine(loc);
+                            removeMachine(loc);
+                        }
+                    }
+                }
+            }
+
+        } catch (IOException e){
+            throw new RuntimeException(e);
         }
     }
 
     public static void saveMachine(Location loc) throws IOException {
+        try {
 
-        Gson gson = new Gson();
-        File file = new File(Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" +
-                loc.getWorld().getName() + "/" + machines.get(loc).getClass().getSimpleName() + "/" + LocHelper.getXYZ(loc) + ".json");
-        file.getParentFile().mkdirs();
+            Gson gson = new Gson();
+            File file = new File(Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" +
+                    loc.getWorld().getName() + "/" + machines.get(loc).getClass().getSimpleName() + "/" + LocHelper.getXYZ(loc) + ".json");
+            file.getParentFile().mkdirs();
 
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        Writer writer = new FileWriter(file, false);
-        gson.toJson(machines.get(loc), writer);
-        writer.flush();
-        writer.close();
-    }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            Writer writer = new FileWriter(file, false);
+            gson.toJson(machines.get(loc), writer);
+            writer.flush();
+            writer.close();
 
-    public static void loadAllMachines() throws ClassNotFoundException, IOException {
-
-        String basepath = Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/";
-        Filewalker filewalker = new Filewalker();
-        filewalker.walk(basepath);
-
-        Gson gson = new Gson();
-        for (Path path : Filewalker.getPathSet()){
-
-            Class c = Class.forName(ClassHelper.getFullClassName(path.getParent().getFileName().toString()));
-            Reader reader = new FileReader(path.toFile());
-
-            Object aClass = gson.fromJson(reader, c);
-
-            World world = Bukkit.getServer().getWorld(path.getParent().getParent().getFileName().toString());
-            String[] coords = path.getFileName().toString().replaceFirst("[.]json","").split(",");
-            Location loc = new Location(world, Double.parseDouble(coords[0]),Double.parseDouble(coords[1]), Double.parseDouble(coords[2]));
-            machines.put(loc, aClass);
+        } catch (IOException e){
+            throw new RuntimeException(e);
         }
     }
 
-    public static void loadChunkMachines(String worldName, int chunkX, int chunkZ) throws ClassNotFoundException, FileNotFoundException {
+    public static void loadAllMachines() {
+        try {
 
-        String basepath = Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" + worldName + "/";
-        Filewalker filewalker = new Filewalker();
-        filewalker.walk(basepath);
+            String basepath = Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/";
+            Filewalker filewalker = new Filewalker();
+            filewalker.walk(basepath);
 
-        Gson gson = new Gson();
-        for (Path path : Filewalker.getPathSet()){
-            String[] XYZ = path.getFileName().toString().replaceFirst("[.]json","").split(",");
+            Gson gson = new Gson();
+            for (Path path : Filewalker.getPathSet()) {
 
-            int x = Integer.parseInt(XYZ[0]);
-            int z = Integer.parseInt(XYZ[2]);
+                Class c = Class.forName(ClassHelper.getFullClassName(path.getParent().getFileName().toString()));
+                Reader reader = new FileReader(path.toFile());
 
-            if (x/16 == chunkX){
-                if (z/16 == chunkZ){
+                Object aClass = gson.fromJson(reader, c);
+
+                World world = Bukkit.getServer().getWorld(path.getParent().getParent().getFileName().toString());
+                String[] coords = path.getFileName().toString().replaceFirst("[.]json", "").split(",");
+                Location loc = new Location(world, Double.parseDouble(coords[0]), Double.parseDouble(coords[1]), Double.parseDouble(coords[2]));
+                machines.put(loc, aClass);
+            }
+
+        } catch (IOException | ClassNotFoundException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void loadChunkMachines(String worldName, int chunkX, int chunkZ) {
+        try {
+
+            String basepath = Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" + worldName + "/";
+            Filewalker filewalker = new Filewalker();
+            filewalker.walk(basepath);
+
+            Gson gson = new Gson();
+            for (Path path : Filewalker.getPathSet()) {
+                String[] XYZ = path.getFileName().toString().replaceFirst("[.]json", "").split(",");
+
+                int x = Integer.parseInt(XYZ[0]);
+                int z = Integer.parseInt(XYZ[2]);
+
+                if (x / 16 == chunkX) {
+                    if (z / 16 == chunkZ) {
+                        Class c = Class.forName(ClassHelper.getFullClassName(path.getParent().getFileName().toString()));
+
+                        Reader reader = new FileReader(path.toFile());
+
+                        Object aClass = gson.fromJson(reader, c);
+
+                        Location loc = new Location(Bukkit.getServer().getWorld(worldName), x, Integer.parseInt(XYZ[1]), z);
+                        machines.put(loc, aClass);
+                    }
+                }
+            }
+
+        } catch (IOException | ClassNotFoundException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void loadMachine(Location loc) {
+        try {
+
+            String basepath = Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" + loc.getWorld().getName() + "/";
+            Filewalker filewalker = new Filewalker();
+            filewalker.walk(basepath);
+
+            Gson gson = new Gson();
+            for (Path path : Filewalker.getPathSet()) {
+                if (path.getFileName().toString().contains(LocHelper.getXYZ(loc))) {
                     Class c = Class.forName(ClassHelper.getFullClassName(path.getParent().getFileName().toString()));
 
                     Reader reader = new FileReader(path.toFile());
 
                     Object aClass = gson.fromJson(reader, c);
 
-                    Location loc = new Location(Bukkit.getServer().getWorld(worldName), x, Integer.parseInt(XYZ[1]), z);
                     machines.put(loc, aClass);
+                    break;
                 }
             }
-        }
-    }
 
-    public static void loadMachine(Location loc) throws ClassNotFoundException, FileNotFoundException {
-
-        String basepath = Mekanica.getPlugin().getDataFolder().getAbsolutePath() + "/Data/" + loc.getWorld().getName() + "/";
-        Filewalker filewalker = new Filewalker();
-        filewalker.walk(basepath);
-
-        Gson gson = new Gson();
-        for (Path path : Filewalker.getPathSet()){
-            if (path.getFileName().toString().contains(LocHelper.getXYZ(loc))){
-                Class c = Class.forName(ClassHelper.getFullClassName(path.getParent().getFileName().toString()));
-
-                Reader reader = new FileReader(path.toFile());
-
-                Object aClass = gson.fromJson(reader, c);
-
-                machines.put(loc, aClass);
-                break;
-            }
+        } catch (IOException | ClassNotFoundException e){
+            throw new RuntimeException(e);
         }
     }
 

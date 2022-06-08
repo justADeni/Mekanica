@@ -58,7 +58,6 @@ public class ElectricalFurnace extends Machine {
                 }
             } else if (burned.getType().isAir() || BurnUtils.getResult(burning.getType()).equals(burned.getType())){
                 addBurned();
-                setBurningAir();
                 setProcon((short) 0);
             }
 
@@ -92,7 +91,7 @@ public class ElectricalFurnace extends Machine {
             setBurningAir();
             return;
         }
-        if (BurnUtils.getResult(burning.getType()).equals(burned.getType())){
+        if (BurnUtils.getResult(burning.getType()).equals(burned.getType()) && (burned.getAmount() < 64)){
             burned = new ItemStack(burned.getType(), burned.getAmount()+1);
             setBurningAir();
         }
