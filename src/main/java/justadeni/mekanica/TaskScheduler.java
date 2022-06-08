@@ -22,6 +22,16 @@ public class TaskScheduler {
         }.runTaskTimerAsynchronously(Mekanica.getPlugin(), 20,20);
     }
 
+    public static void saveContinuously(){
+        new BukkitRunnable() {
+            @Override
+            public void run () {
+                //methods
+                Storage.saveAllMachines();
+            }
+        }.runTaskTimerAsynchronously(Mekanica.getPlugin(), 5*60*20,5*60*20);
+    }
+
     public static void chunkLoad(String worldName, int chunkX, int chunkZ) {
         new BukkitRunnable() {
             @Override

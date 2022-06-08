@@ -73,43 +73,34 @@ public class Storage {
 
     public static void saveChunkMachines(String worldName, int chunkX, int chunkZ) {
 
-        try {
-
-            for (Location loc : machines.keySet()) {
-                if (loc.getWorld().getName().equals(worldName)) {
-                    if (loc.getX() / 16 == chunkX) {
-                        if (loc.getZ() / 16 == chunkZ) {
-                            saveMachine(loc);
-                        }
+        for (Location loc : machines.keySet()) {
+            if (loc.getWorld().getName().equals(worldName)) {
+                if ((int)(loc.getX()) >> 4 == chunkX) {
+                    if ((int)(loc.getZ()) >> 4 == chunkZ) {
+                        saveMachine(loc);
                     }
                 }
             }
-
-        } catch (IOException e){
-            throw new RuntimeException(e);
         }
+
     }
 
     public static void saveAndRemoveChunkMachines(String worldName, int chunkX, int chunkZ) {
-        try {
 
-            for (Location loc : machines.keySet()) {
-                if (loc.getWorld().getName().equals(worldName)) {
-                    if (loc.getX() / 16 == chunkX) {
-                        if (loc.getZ() / 16 == chunkZ) {
-                            saveMachine(loc);
-                            removeMachine(loc);
-                        }
+        for (Location loc : machines.keySet()) {
+            if (loc.getWorld().getName().equals(worldName)) {
+                if ((int)(loc.getX()) >> 4 == chunkX) {
+                    if ((int)(loc.getZ()) >> 4 == chunkZ) {
+                        saveMachine(loc);
+                        removeMachine(loc);
                     }
                 }
             }
-
-        } catch (IOException e){
-            throw new RuntimeException(e);
         }
+
     }
 
-    public static void saveMachine(Location loc) throws IOException {
+    public static void saveMachine(Location loc) {
         try {
 
             Gson gson = new Gson();
@@ -170,8 +161,8 @@ public class Storage {
                 int x = Integer.parseInt(XYZ[0]);
                 int z = Integer.parseInt(XYZ[2]);
 
-                if (x / 16 == chunkX) {
-                    if (z / 16 == chunkZ) {
+                if (x >> 4 == chunkX) {
+                    if (z >> 4 == chunkZ) {
                         Class c = Class.forName(ClassHelper.getFullClassName(path.getParent().getFileName().toString()));
 
                         Reader reader = new FileReader(path.toFile());
