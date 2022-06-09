@@ -15,7 +15,10 @@ import org.bukkit.inventory.ItemStack;
 @Setter
 public class Wind extends Machine {
 
-    public final static ItemManager itemManager = new ItemManager(6,"Wind Generator", Material.DISPENSER);
+    @Override
+    public final ItemManager getItem() {
+        return new ItemManager(6,"Wind Generator", Material.DISPENSER);
+    }
     public static Wind getNew(){
         return new Wind(0, 20000, (short) 0);
     }

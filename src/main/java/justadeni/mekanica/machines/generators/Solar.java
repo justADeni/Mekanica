@@ -10,7 +10,11 @@ import org.bukkit.Material;
 @Getter
 @Setter
 public class Solar extends Machine {
-    public final static ItemManager itemManager = new ItemManager(3,"Solar Generator", Material.DAYLIGHT_DETECTOR);
+
+    @Override
+    public final ItemManager getItem() {
+        return new ItemManager(3,"Solar Generator", Material.DAYLIGHT_DETECTOR);
+    }
     public static Solar getNew(){
         return new Solar(0,20000, (short) 0);
     }

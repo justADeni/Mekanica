@@ -79,7 +79,7 @@ public class ClassHelper {
 
     public static Class getClassById(int id) throws Exception{
         for (Class aClass : getMachineClasses()){
-            ItemManager itemManager = (ItemManager) aClass.getField("itemManager").get(null);
+            ItemManager itemManager = (ItemManager) aClass.getMethod("getItem").invoke(aClass);
             if (itemManager.getId() == id){
                 return aClass;
             }
@@ -90,7 +90,7 @@ public class ClassHelper {
     public static int getIdByClass(Class clazz) throws Exception {
         for (Class aClass : getMachineClasses()){
             if (aClass.equals(clazz)){
-                ItemManager itemManager = (ItemManager) aClass.getField("itemManager").get(null);
+                ItemManager itemManager = (ItemManager) aClass.getMethod("getItem").invoke(aClass);
                 return itemManager.getId();
             }
         }
@@ -100,7 +100,7 @@ public class ClassHelper {
     public static int getIdByObject(Object obj) throws Exception {
         for (Class aClass : getMachineClasses()){
             if (obj.getClass().getName().equals(aClass.getName())){
-                ItemManager itemManager = (ItemManager) aClass.getField("itemManager").get(null);
+                ItemManager itemManager = (ItemManager) aClass.getMethod("getItem").invoke(aClass);
                 return itemManager.getId();
             }
         }
@@ -109,7 +109,8 @@ public class ClassHelper {
 
     public static ItemManager getItemManager(int id) throws Exception {
         for (Class aClass : getMachineClasses()){
-            ItemManager itemManager = (ItemManager) aClass.getField("itemManager").get(null);
+            //ItemManager itemManager = (ItemManager) aClass.getField("itemManager").get(null);
+            ItemManager itemManager = (ItemManager) aClass.getMethod("getItem").invoke(aClass);
             if (itemManager.getId() == id){
                 return itemManager;
             }

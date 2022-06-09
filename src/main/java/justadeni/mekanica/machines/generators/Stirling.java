@@ -13,7 +13,10 @@ import org.bukkit.inventory.ItemStack;
 @Setter
 public class Stirling extends Machine {
 
-    public final static ItemManager itemManager = new ItemManager(2,"Stirling Generator", Material.BLAST_FURNACE);
+    @Override
+    public final ItemManager getItem() {
+        return new ItemManager(2,"Stirling Generator", Material.BLAST_FURNACE);
+    }
     public static Stirling getNew(){
         return new Stirling(0, 80000, (short) 0, new ItemStack(Material.AIR), (byte) 0);
     }

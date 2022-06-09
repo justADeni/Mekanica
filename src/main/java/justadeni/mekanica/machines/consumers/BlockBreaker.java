@@ -16,7 +16,10 @@ import org.bukkit.inventory.ItemStack;
 @Setter
 public class BlockBreaker extends Machine {
 
-    public final static ItemManager itemManager = new ItemManager(8,"Block Breaker", Material.DROPPER);
+    @Override
+    public final ItemManager getItem() {
+        return new ItemManager(8,"Block Breaker", Material.DROPPER);
+    }
 
     public static BlockBreaker getNew(){
         return new BlockBreaker(0, 40000, (short) 0, new ItemStack(Material.AIR), (byte) 0);

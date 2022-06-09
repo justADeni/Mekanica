@@ -12,7 +12,10 @@ import org.bukkit.Material;
 @Setter
 public class Geothermal extends Machine {
 
-    public final static ItemManager itemManager = new ItemManager(4,"Geothermal Generator", Material.OBSERVER);
+    @Override
+    public final ItemManager getItem() {
+        return new ItemManager(4,"Geothermal Generator", Material.OBSERVER);
+    }
 
     public static Geothermal getNew(){
         return new Geothermal(0, 20000, (short) 0);

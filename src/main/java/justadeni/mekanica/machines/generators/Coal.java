@@ -13,7 +13,10 @@ import org.bukkit.inventory.ItemStack;
 @Setter
 public class Coal extends Machine{
 
-    public final static ItemManager itemManager = new ItemManager(1,"Coal Generator", Material.DROPPER);
+    @Override
+    public final ItemManager getItem() {
+        return new ItemManager(1,"Coal Generator", Material.DROPPER);
+    }
     public static Coal getNew(){
         return new Coal(0, 80000, (short) 0, new ItemStack(Material.AIR), (byte) 0);
     }

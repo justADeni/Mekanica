@@ -1,7 +1,7 @@
 name: Mekanica
 version: '${project.version}'
 main: justadeni.mekanica.Mekanica
-depend: [SmartInvs]
+softdepend: [SmartInvs]
 api-version: 1.18
 load: STARTUP
 commands:

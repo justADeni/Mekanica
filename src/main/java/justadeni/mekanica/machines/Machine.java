@@ -1,5 +1,7 @@
 package justadeni.mekanica.machines;
 
+import justadeni.mekanica.inventories.InvManager;
+import justadeni.mekanica.items.ItemManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -18,6 +20,10 @@ public abstract class Machine {
     }
 
     public abstract void produce(Location loc);
+
+    public abstract ItemManager getItem();
+
+    //public abstract InvManager getInventory();
 
     public void addRF(int delta){
         RF += delta;

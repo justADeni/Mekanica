@@ -14,7 +14,10 @@ import org.bukkit.inventory.ItemStack;
 @Setter
 public class ElectricalFurnace extends Machine {
 
-    public final static ItemManager itemManager = new ItemManager(7,"Electrical furnace", Material.FURNACE);
+    @Override
+    public final ItemManager getItem() {
+        return new ItemManager(7,"Electrical furnace", Material.FURNACE);
+    }
 
     public static ElectricalFurnace getNew(){
         return new ElectricalFurnace(0, 40000, (short) 0, new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.AIR),(byte) 0);
