@@ -40,11 +40,9 @@ public class Coal extends Machine{
         if (progress == 0){
             if (fuel.getType().equals(Material.COAL) || fuel.getType().equals(Material.CHARCOAL)){
                 if (fuel.getAmount() == 1){
-
                     work();
                     setFuel(new ItemStack(Material.AIR));
                 } else {
-
                     work();
                     setFuel(new ItemStack(fuel.getType(), fuel.getAmount()-1));
                 }
@@ -53,14 +51,10 @@ public class Coal extends Machine{
                 return;
             }
         } else if (progress <= 90){
-
             work();
-
         } else {
-
             work();
             progress = 0;
-
         }
 
     }

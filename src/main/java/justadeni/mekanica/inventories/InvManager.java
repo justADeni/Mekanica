@@ -6,7 +6,9 @@ import org.bukkit.inventory.Inventory;
 public class InvManager {
 
     private Inventory inventory;
+    public InvManager(){
 
+    }
 
 
 }
