@@ -1,5 +1,6 @@
 package justadeni.mekanica.machines.generators;
 
+import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
 import lombok.Getter;
@@ -18,6 +19,10 @@ public class Wind extends Machine {
     @Override
     public final ItemManager getItem() {
         return new ItemManager(6,"Wind Generator", Material.DISPENSER);
+    }
+    @Override
+    public InvManager getInv(){
+        return new InvManager(new int[]{},new ItemStack[]{},new int[]{},new ItemStack[]{}, this);
     }
     public static Wind getNew(){
         return new Wind(0, 20000, (short) 0);

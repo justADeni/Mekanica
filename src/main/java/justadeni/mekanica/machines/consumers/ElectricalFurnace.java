@@ -1,5 +1,6 @@
 package justadeni.mekanica.machines.consumers;
 
+import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
 import justadeni.mekanica.utils.nms.BurnUtils;
@@ -16,7 +17,11 @@ public class ElectricalFurnace extends Machine {
 
     @Override
     public final ItemManager getItem() {
-        return new ItemManager(7,"Electrical furnace", Material.FURNACE);
+        return new ItemManager(7,"Electrical Furnace", Material.FURNACE);
+    }
+    @Override
+    public InvManager getInv(){
+        return new InvManager(new int[]{10},new ItemStack[]{burnable},new int[]{14},new ItemStack[]{burned}, this);
     }
 
     public static ElectricalFurnace getNew(){

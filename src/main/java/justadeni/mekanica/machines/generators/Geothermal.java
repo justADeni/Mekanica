@@ -1,5 +1,6 @@
 package justadeni.mekanica.machines.generators;
 
+import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
 import justadeni.mekanica.utils.LocHelper;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 @Getter
 @Setter
@@ -15,6 +17,10 @@ public class Geothermal extends Machine {
     @Override
     public final ItemManager getItem() {
         return new ItemManager(4,"Geothermal Generator", Material.OBSERVER);
+    }
+    @Override
+    public InvManager getInv(){
+        return new InvManager(new int[]{},new ItemStack[]{},new int[]{},new ItemStack[]{}, this);
     }
 
     public static Geothermal getNew(){

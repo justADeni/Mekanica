@@ -1,5 +1,6 @@
 package justadeni.mekanica.machines.consumers;
 
+import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
 import justadeni.mekanica.utils.nms.Breakability;
@@ -19,6 +20,10 @@ public class BlockBreaker extends Machine {
     @Override
     public final ItemManager getItem() {
         return new ItemManager(8,"Block Breaker", Material.DROPPER);
+    }
+    @Override
+    public InvManager getInv(){
+        return new InvManager(new int[]{},new ItemStack[]{},new int[]{10},new ItemStack[]{product}, this);
     }
 
     public static BlockBreaker getNew(){

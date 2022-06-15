@@ -1,7 +1,9 @@
 package justadeni.mekanica.machines.generators;
 
+import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
+import justadeni.mekanica.utils.ClassHelper;
 import justadeni.mekanica.utils.nms.BurnUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +18,11 @@ public class Coal extends Machine{
     @Override
     public final ItemManager getItem() {
         return new ItemManager(1,"Coal Generator", Material.DROPPER);
+    }
+
+    @Override
+    public InvManager getInv(){
+        return new InvManager(new int[]{10},new ItemStack[]{fuel},new int[]{},new ItemStack[]{}, this);
     }
     public static Coal getNew(){
         return new Coal(0, 80000, (short) 0, new ItemStack(Material.AIR), (byte) 0);

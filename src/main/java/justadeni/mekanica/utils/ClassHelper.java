@@ -5,11 +5,10 @@ import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
 import justadeni.mekanica.Mekanica;
 import justadeni.mekanica.items.ItemManager;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,12 @@ import java.util.List;
 
 public class ClassHelper {
 
+    public static String getName(Object obj) {
+        Class aClass = obj.getClass();
+        String[] packageName = aClass.getPackageName().split(".");
+        return aClass.getSimpleName().split(".")[0] + " " +
+                StringUtils.capitalize(StringUtils.chop(packageName[packageName.length - 1]));
+    }
     public static void registerListeners() {
         try {
             for (ClassInfo classInfo : new ClassGraph().acceptPackages("justadeni.mekanica.listeners.")

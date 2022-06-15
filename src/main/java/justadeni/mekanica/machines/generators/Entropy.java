@@ -1,5 +1,6 @@
 package justadeni.mekanica.machines.generators;
 
+import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
 import lombok.Getter;
@@ -15,6 +16,10 @@ public class Entropy extends Machine {
     @Override
     public final ItemManager getItem() {
         return new ItemManager(5,"Entropy Generator", Material.ANVIL);
+    }
+    @Override
+    public InvManager getInv(){
+        return new InvManager(new int[]{10},new ItemStack[]{fuel},new int[]{},new ItemStack[]{}, this);
     }
 
     public static Entropy getNew(){

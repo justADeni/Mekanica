@@ -23,7 +23,7 @@ public abstract class Machine {
 
     public abstract ItemManager getItem();
 
-    //public abstract InvManager getInventory();
+    public abstract InvManager getInv();
 
     public void addRF(int delta){
         RF += delta;

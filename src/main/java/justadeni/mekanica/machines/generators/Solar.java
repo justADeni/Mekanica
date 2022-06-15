@@ -1,11 +1,13 @@
 package justadeni.mekanica.machines.generators;
 
+import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 @Getter
 @Setter
@@ -14,6 +16,10 @@ public class Solar extends Machine {
     @Override
     public final ItemManager getItem() {
         return new ItemManager(3,"Solar Generator", Material.DAYLIGHT_DETECTOR);
+    }
+    @Override
+    public InvManager getInv(){
+        return new InvManager(new int[]{},new ItemStack[]{},new int[]{},new ItemStack[]{}, this);
     }
     public static Solar getNew(){
         return new Solar(0,20000, (short) 0);
