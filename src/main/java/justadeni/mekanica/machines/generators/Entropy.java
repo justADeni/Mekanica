@@ -19,7 +19,7 @@ public class Entropy extends Machine {
     }
     @Override
     public InvManager getInv(){
-        return new InvManager(new int[]{10},new ItemStack[]{fuel},new int[]{},new ItemStack[]{}, this);
+        return new InvManager(new int[]{10},new ItemStack[]{fuel},new int[]{},new ItemStack[]{},getRF(), getLimit(), "Entropy Generator");
     }
 
     public static Entropy getNew(){

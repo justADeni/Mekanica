@@ -20,7 +20,7 @@ public class Geothermal extends Machine {
     }
     @Override
     public InvManager getInv(){
-        return new InvManager(new int[]{},new ItemStack[]{},new int[]{},new ItemStack[]{}, this);
+        return new InvManager(new int[]{},new ItemStack[]{},new int[]{},new ItemStack[]{},getRF(), getLimit(), "Geothermal Generator");
     }
 
     public static Geothermal getNew(){

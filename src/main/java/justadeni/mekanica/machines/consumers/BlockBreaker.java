@@ -23,7 +23,7 @@ public class BlockBreaker extends Machine {
     }
     @Override
     public InvManager getInv(){
-        return new InvManager(new int[]{},new ItemStack[]{},new int[]{10},new ItemStack[]{product}, this);
+        return new InvManager(new int[]{},new ItemStack[]{},new int[]{10},new ItemStack[]{product},getRF(), getLimit(), "Block Breaker");
     }
 
     public static BlockBreaker getNew(){

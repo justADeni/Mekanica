@@ -19,7 +19,7 @@ public class Solar extends Machine {
     }
     @Override
     public InvManager getInv(){
-        return new InvManager(new int[]{},new ItemStack[]{},new int[]{},new ItemStack[]{}, this);
+        return new InvManager(new int[]{},new ItemStack[]{},new int[]{},new ItemStack[]{},getRF(), getLimit(), "Solar Generator");
     }
     public static Solar getNew(){
         return new Solar(0,20000, (short) 0);

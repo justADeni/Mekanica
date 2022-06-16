@@ -21,7 +21,7 @@ public class ElectricalFurnace extends Machine {
     }
     @Override
     public InvManager getInv(){
-        return new InvManager(new int[]{10},new ItemStack[]{burnable},new int[]{14},new ItemStack[]{burned}, this);
+        return new InvManager(new int[]{10},new ItemStack[]{burnable},new int[]{14},new ItemStack[]{burned}, getRF(), getLimit(), "Electrical Furnace");
     }
 
     public static ElectricalFurnace getNew(){

@@ -9,6 +9,11 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 @Getter
 @Setter
 public class InvManager {
@@ -18,26 +23,30 @@ public class InvManager {
     private int[] outSlots;
     private ItemStack[] outItems;
     private Inventory inventory;
-    public InvManager(int[] inSlots, ItemStack[] inItems, int[] outSlots,ItemStack[] outItems, Machine machine){
+    public InvManager(int[] inSlots, ItemStack[] inItems, int[] outSlots,ItemStack[] outItems, int RF, int limit, String name){
         this.inSlots = inSlots;
         this.inItems = inItems;
         this.outSlots = outSlots;
         this.outItems = outItems;
 
-        inventory = Bukkit.createInventory(null, getTotalSlots(), ClassHelper.getName(machine)); //27, 54
+        inventory = Bukkit.createInventory(null, getTotalSlots(), name); //27, 54
         if (inSlots.length != 0){
+            int count = 0;
             for (int i : inSlots){
                 setCircle(i,Material.LIGHT_BLUE_STAINED_GLASS_PANE);
-                inventory.setItem(i,inItems[i]);
+                inventory.setItem(i,inItems[count]);
+                count++;
             }
         }
         if (outSlots.length != 0){
+            int count = 0;
             for (int i : outSlots){
                 setCircle(i,Material.RED_STAINED_GLASS_PANE);
-                inventory.setItem(i,outItems[i]);
+                inventory.setItem(i,outItems[count]);
+                count++;
             }
         }
-        setEnergyBar(machine.getRF(), machine.getLimit());
+        setEnergyBar(RF, limit);
         fillRest(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
     }
     private int getTotalSlots(){
@@ -84,10 +93,26 @@ public class InvManager {
 
     private void fillRest(Material material){
         ItemStack item = new ItemStack(material);
-        for (int i = inventory.getSize()-1; i >= 0; i--){
-            if (inventory.getItem(i) != null || inventory.getItem(i).equals(new ItemStack(Material.AIR))){
+        for (int i = 0; i < inventory.getSize(); i++){
+
+            List<Integer> slots = new ArrayList<>();
+            for (int slot : inSlots)
+                slots.add(slot);
+            for (int slot : outSlots)
+                slots.add(slot);
+
+            if (slots.contains(i))
+                continue;
+
+            if (inventory.getItem(i) == null){
                 inventory.setItem(i, item);
             }
+            /*
+            if (inventory.getItem(i).getType().isAir()){
+                inventory.setItem(i, item);
+            }
+            */
         }
+
     }
 }

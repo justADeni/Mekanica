@@ -1,6 +1,7 @@
 package justadeni.mekanica;
 
 import justadeni.mekanica.machines.Machine;
+import justadeni.mekanica.utils.ClassHelper;
 import justadeni.mekanica.utils.files.Storage;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -9,13 +10,24 @@ import java.io.FileNotFoundException;
 
 public class TaskScheduler {
 
+    public static void startupIndex() {
+        new BukkitRunnable() {
+            @Override
+            public void run () {
+
+                ClassHelper.indexClassesItems();
+
+            }
+        }.runTaskAsynchronously(Mekanica.getPlugin());
+    }
+
     public static void tickMachines() {
         new BukkitRunnable() {
             @Override
             public void run () {
                 //methods
                 for (Location loc : Storage.getAllMachines().keySet()){
-                    Machine machine = (Machine) Storage.getMachine(loc);
+                    Machine machine = Storage.getMachine(loc);
                     machine.produce(loc);
                 }
             }

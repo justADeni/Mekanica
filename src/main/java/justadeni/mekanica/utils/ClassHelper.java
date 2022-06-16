@@ -5,22 +5,34 @@ import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
 import justadeni.mekanica.Mekanica;
 import justadeni.mekanica.items.ItemManager;
+import justadeni.mekanica.machines.Machine;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class ClassHelper {
 
-    public static String getName(Object obj) {
-        Class aClass = obj.getClass();
-        String[] packageName = aClass.getPackageName().split(".");
-        return aClass.getSimpleName().split(".")[0] + " " +
-                StringUtils.capitalize(StringUtils.chop(packageName[packageName.length - 1]));
+    private static HashMap<Integer, Class> classIndex = new HashMap<>();
+    //TODO: make all indexes file based upon inactivity
+
+    public static void indexClassesItems(){
+        try {
+            for (Class aClass : getMachineClasses()) {
+                Method method = aClass.getMethod("getNew");
+                ItemManager itemManager = ((Machine) method.invoke(null)).getItem();
+
+                classIndex.put(itemManager.getId(), aClass);
+                ItemManager.itemManagerIndex.put(itemManager.getId(), itemManager);
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
     public static void registerListeners() {
         try {
@@ -38,6 +50,7 @@ public class ClassHelper {
     }
 
     public static String getFullClassName(String name){
+        /*
         List<String> classNames;
         try (ScanResult scanResult = new ClassGraph().acceptPackages("justadeni.mekanica.machines.")
                 .enableClassInfo().scan()) {
@@ -52,6 +65,15 @@ public class ClassHelper {
             }
         }
 
+        return null;
+        */
+        for (Class aClass : classIndex.values()){
+            String s = aClass.getName();
+            String[] strings = s.split("[.]");
+            if (strings[strings.length-1].equals(name)){
+                return s;
+            }
+        }
         return null;
     }
 
@@ -82,27 +104,28 @@ public class ClassHelper {
     }
 
 
-    public static Class getClassById(int id) throws Exception{
-        for (Class aClass : getMachineClasses()){
-            ItemManager itemManager = (ItemManager) aClass.getMethod("getItem").invoke(aClass);
-            if (itemManager.getId() == id){
-                return aClass;
+    public static Machine getNewMachineById(int id){
+        try {
+            /*
+            for (Class aClass : getMachineClasses()) {
+                //ItemManager itemManager = (ItemManager) aClass.getMethod("getItem").invoke(aClass);
+                Machine machine = (Machine) aClass.getMethod("getNew").invoke(null);
+                ItemManager itemManager = machine.getItem();
+                if (itemManager.getId() == id) {
+                    return machine;
+                }
             }
+            return null;
+            */
+            return (Machine) classIndex.get(id).getMethod("getNew").invoke(null);
+        } catch (Exception e){
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
-    public static int getIdByClass(Class clazz) throws Exception {
-        for (Class aClass : getMachineClasses()){
-            if (aClass.equals(clazz)){
-                ItemManager itemManager = (ItemManager) aClass.getMethod("getItem").invoke(aClass);
-                return itemManager.getId();
-            }
-        }
-        return 0;
-    }
+    /*
+    public static int getIdByObject(Machine machine){
 
-    public static int getIdByObject(Object obj) throws Exception {
         for (Class aClass : getMachineClasses()){
             if (obj.getClass().getName().equals(aClass.getName())){
                 ItemManager itemManager = (ItemManager) aClass.getMethod("getItem").invoke(aClass);
@@ -110,23 +133,26 @@ public class ClassHelper {
             }
         }
         return 0;
-    }
 
+        return machine.getItem().getId();
+    }
+    */
+
+    /*
     public static ItemManager getItemManager(int id) throws Exception {
+
         for (Class aClass : getMachineClasses()){
             //ItemManager itemManager = (ItemManager) aClass.getField("itemManager").get(null);
-            ItemManager itemManager = (ItemManager) aClass.getMethod("getItem").invoke(aClass);
-            if (itemManager.getId() == id){
-                return itemManager;
+            //ItemManager itemManager = (ItemManager) aClass.getMethod("getItem").invoke(getNewClassObject(id));
+            Machine machine = (Machine) getNewClassObject(id);
+            if (machine.getItem().getId() == id){
+                return machine.getItem();
             }
         }
         return null;
-    }
 
-    public static Object getNewClassObject(int id) throws Exception{
-        Class aClass = getClassById(id);
-        Method method = aClass.getMethod("getNew");
-        return method.invoke(null);
+
     }
+    */
 
 }

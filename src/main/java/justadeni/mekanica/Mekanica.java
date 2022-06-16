@@ -29,6 +29,7 @@ public final class Mekanica extends JavaPlugin {
 
         ClassHelper.registerListeners();
 
+        TaskScheduler.startupIndex();
         TaskScheduler.tickMachines();
         TaskScheduler.saveContinuously();
     }

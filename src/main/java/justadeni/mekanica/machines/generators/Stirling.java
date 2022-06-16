@@ -20,7 +20,7 @@ public class Stirling extends Machine {
     }
     @Override
     public InvManager getInv(){
-        return new InvManager(new int[]{10},new ItemStack[]{fuel},new int[]{},new ItemStack[]{}, this);
+        return new InvManager(new int[]{10},new ItemStack[]{fuel},new int[]{},new ItemStack[]{},getRF(), getLimit(), "Stirling Generator");
     }
     public static Stirling getNew(){
         return new Stirling(0, 80000, (short) 0, new ItemStack(Material.AIR), (byte) 0);

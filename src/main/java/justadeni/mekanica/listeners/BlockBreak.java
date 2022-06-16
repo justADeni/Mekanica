@@ -1,6 +1,7 @@
 package justadeni.mekanica.listeners;
 
 import justadeni.mekanica.items.ItemManager;
+import justadeni.mekanica.machines.Machine;
 import justadeni.mekanica.utils.ClassHelper;
 import justadeni.mekanica.utils.files.Storage;
 import org.bukkit.GameMode;
@@ -19,7 +20,8 @@ public class BlockBreak implements Listener {
 
         if (!(obj == null)) {
 
-            int id = ClassHelper.getIdByObject(Storage.getMachine(loc));
+            //int id = ClassHelper.getIdByObject((Machine) Storage.getMachine(loc));
+            int id = ((Machine) Storage.getMachine(loc)).getItem().getId();
             if (id > 0){
                 e.setDropItems(false);
                 if (!e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {

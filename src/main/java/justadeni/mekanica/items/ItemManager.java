@@ -1,5 +1,6 @@
 package justadeni.mekanica.items;
 
+import justadeni.mekanica.machines.Machine;
 import justadeni.mekanica.utils.ClassHelper;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,12 +11,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
 public class ItemManager {
+
+    public static HashMap<Integer, ItemManager> itemManagerIndex = new HashMap<>();
+    //TODO: make all indexes file based upon inactivity
+
     private int id;
     private String DisplayName;
     private Material material;
@@ -27,7 +32,8 @@ public class ItemManager {
     }
 
     public static ItemStack getItem(int id) throws Exception {
-        ItemManager itemManager = ClassHelper.getItemManager(id);
+        //ItemManager itemManager = ((Machine) ClassHelper.getNewItem(id)).getItem();
+        ItemManager itemManager = itemManagerIndex.get(id);
         return ItemMaker(id, itemManager.getDisplayName(), itemManager.getMaterial());
     }
 
