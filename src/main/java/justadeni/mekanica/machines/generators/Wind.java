@@ -28,7 +28,7 @@ public class Wind extends Machine {
             return InvIndex.get(loc);
         }
 
-        return new InvManager(new int[]{},new ItemStack[]{},new int[]{},new ItemStack[]{},getRF(), getLimit(), "Wind Generator");
+        return new InvManager(new int[]{},new ItemStack[]{},new int[]{},new ItemStack[]{},getRF(), getLimit(),getProcon(), "Wind Generator");
     }
     public static Wind getNew(){
         return new Wind(0, 20000, (short) 0);
@@ -41,6 +41,12 @@ public class Wind extends Machine {
 
     @Override
     public void produce(Location loc) {
+
+        InvManager invManager = InvIndex.get(loc);
+        if (invManager != null){
+            invManager.getChange();
+        }
+
         if (getRF() >= getLimit()) {
             setProcon((short) 0);
             return;
@@ -57,5 +63,8 @@ public class Wind extends Machine {
             setProcon((short) delta);
         }
 
+        if (invManager != null){
+            invManager.makeChange(new ItemStack[]{}, new ItemStack[]{}, getRF(), getLimit());
+        }
     }
 }

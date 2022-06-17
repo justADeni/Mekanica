@@ -26,7 +26,7 @@ public class Geothermal extends Machine {
             return InvIndex.get(loc);
         }
 
-        return new InvManager(new int[]{},new ItemStack[]{},new int[]{},new ItemStack[]{},getRF(), getLimit(), "Geothermal Generator");
+        return new InvManager(new int[]{},new ItemStack[]{},new int[]{},new ItemStack[]{},getRF(), getLimit(),getProcon(), "Geothermal Generator");
     }
 
     public static Geothermal getNew(){
@@ -39,6 +39,12 @@ public class Geothermal extends Machine {
 
     @Override
     public void produce(Location loc) {
+
+        InvManager invManager = InvIndex.get(loc);
+        if (invManager != null){
+            invManager.getChange();
+        }
+
         if (getRF() >= getLimit()) {
             setProcon((short) 0);
             return;
@@ -55,5 +61,9 @@ public class Geothermal extends Machine {
 
         addRF(delta);
         setProcon((short) delta);
+
+        if (invManager != null){
+            invManager.makeChange(new ItemStack[]{}, new ItemStack[]{}, getRF(), getLimit());
+        }
     }
 }

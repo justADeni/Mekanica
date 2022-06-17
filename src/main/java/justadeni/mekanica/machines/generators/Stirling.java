@@ -26,7 +26,7 @@ public class Stirling extends Machine {
             return InvIndex.get(loc);
         }
 
-        return new InvManager(new int[]{10},new ItemStack[]{fuel},new int[]{},new ItemStack[]{},getRF(), getLimit(), "Stirling Generator");
+        return new InvManager(new int[]{10},new ItemStack[]{fuel},new int[]{},new ItemStack[]{},getRF(), getLimit(),getProcon(), "Stirling Generator");
     }
     public static Stirling getNew(){
         return new Stirling(0, 80000, (short) 0, new ItemStack(Material.AIR), (byte) 0);
@@ -42,34 +42,42 @@ public class Stirling extends Machine {
 
     @Override
     public void produce(Location loc){
+
+        InvManager invManager = InvIndex.get(loc);
+        if (invManager != null){
+            invManager.getChange();
+            fuel = invManager.getInItems()[0];
+        }
+
         if (getRF() >= getLimit()) {
             setProcon((short) 0);
             return;
         }
         if (progress == 0){
-            if (fuel.getType().isFuel()){
-                if (fuel.getAmount() == 1){
-
-                    work();
-                    setFuel(new ItemStack(Material.AIR));
+            if (fuel != null) {
+                if (fuel.getType().isFuel()) {
+                    if (fuel.getAmount() == 1) {
+                        work();
+                        setFuel(new ItemStack(Material.AIR));
+                    } else {
+                        work();
+                        setFuel(new ItemStack(fuel.getType(), fuel.getAmount() - 1));
+                    }
                 } else {
-
-                    work();
-                    setFuel(new ItemStack(fuel.getType(), fuel.getAmount()-1));
+                    setProcon((short) 0);
                 }
             } else {
                 setProcon((short) 0);
-                return;
             }
         } else if (progress <= 90){
-
             work();
-
         } else {
-
             work();
             progress = 0;
+        }
 
+        if (invManager != null){
+            invManager.makeChange(new ItemStack[]{fuel}, new ItemStack[]{}, getRF(), getLimit());
         }
     }
 

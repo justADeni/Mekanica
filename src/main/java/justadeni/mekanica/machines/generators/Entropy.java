@@ -25,7 +25,7 @@ public class Entropy extends Machine {
             return InvIndex.get(loc);
         }
 
-        return new InvManager(new int[]{10},new ItemStack[]{fuel},new int[]{},new ItemStack[]{},getRF(), getLimit(), "Entropy Generator");
+        return new InvManager(new int[]{10},new ItemStack[]{fuel},new int[]{},new ItemStack[]{},getRF(), getLimit(),getProcon(), "Entropy Generator");
     }
 
     public static Entropy getNew(){
@@ -45,18 +45,22 @@ public class Entropy extends Machine {
     @Override
     public void produce(Location loc) {
 
+        InvManager invManager = InvIndex.get(loc);
+        if (invManager != null){
+            invManager.getChange();
+            fuel = invManager.getInItems()[0];
+        }
+
         if (getRF() >= getLimit()) {
             setProcon((short) 0);
             return;
         }
         if (progress == 0){
-            if (!fuel.getType().isAir()){
+            if (fuel != null){
                 if (fuel.getAmount() == 1){
-
                     work();
                     setFuel(new ItemStack(Material.AIR));
                 } else {
-
                     work();
                     setFuel(new ItemStack(fuel.getType(), fuel.getAmount()-1));
                 }
@@ -65,16 +69,15 @@ public class Entropy extends Machine {
                 return;
             }
         } else if (progress <= 90){
-
             work();
-
         } else {
-
             work();
             progress = 0;
-
         }
 
+        if (invManager != null){
+            invManager.makeChange(new ItemStack[]{fuel}, new ItemStack[]{}, getRF(), getLimit());
+        }
     }
 
     private void work(){

@@ -25,7 +25,7 @@ public class Solar extends Machine {
             return InvIndex.get(loc);
         }
 
-        return new InvManager(new int[]{},new ItemStack[]{},new int[]{},new ItemStack[]{},getRF(), getLimit(), "Solar Generator");
+        return new InvManager(new int[]{},new ItemStack[]{},new int[]{},new ItemStack[]{},getRF(), getLimit(),getProcon(), "Solar Generator");
     }
     public static Solar getNew(){
         return new Solar(0,20000, (short) 0);
@@ -37,6 +37,12 @@ public class Solar extends Machine {
 
     @Override
     public void produce(Location loc){
+
+        InvManager invManager = InvIndex.get(loc);
+        if (invManager != null){
+            invManager.getChange();
+        }
+
         if (getRF() >= getLimit()) {
             setProcon((short) 0);
             return;
@@ -47,6 +53,10 @@ public class Solar extends Machine {
             int delta = (int)(-0.003*Math.abs(time-6000)+20); //see https://www.desmos.com/calculator/dxskyfv6wi
             addRF(delta);
             setProcon((short) delta);
+        }
+
+        if (invManager != null){
+            invManager.makeChange(new ItemStack[]{}, new ItemStack[]{}, getRF(), getLimit());
         }
     }
 }

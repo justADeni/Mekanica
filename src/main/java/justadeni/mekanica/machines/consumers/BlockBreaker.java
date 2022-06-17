@@ -29,7 +29,7 @@ public class BlockBreaker extends Machine {
             return InvIndex.get(loc);
         }
 
-        return new InvManager(new int[]{},new ItemStack[]{},new int[]{10},new ItemStack[]{product},getRF(), getLimit(), "Block Breaker");
+        return new InvManager(new int[]{},new ItemStack[]{},new int[]{10},new ItemStack[]{product},getRF(), getLimit(),getProcon(), "Block Breaker");
     }
 
     public static BlockBreaker getNew(){
@@ -47,6 +47,12 @@ public class BlockBreaker extends Machine {
 
     @Override
     public void produce(Location loc) {
+
+        InvManager invManager = InvIndex.get(loc);
+        if (invManager != null){
+            invManager.getChange();
+        }
+
         if (getRF() <= 0){
             setProcon((short) 0);
             return;
@@ -59,7 +65,6 @@ public class BlockBreaker extends Machine {
                     work();
                 } else {
                     setProcon((short) 0);
-                    return;
                 }
             } else if (progress <= 80){
                 work();
@@ -71,6 +76,10 @@ public class BlockBreaker extends Machine {
                 work();
                 progress = 0;
             }
+        }
+
+        if (invManager != null){
+            invManager.makeChange(new ItemStack[]{}, new ItemStack[]{}, getRF(), getLimit());
         }
     }
 

@@ -27,7 +27,7 @@ public class ElectricalFurnace extends Machine {
             return InvIndex.get(loc);
         }
 
-        return new InvManager(new int[]{10},new ItemStack[]{burnable},new int[]{14},new ItemStack[]{burned}, getRF(), getLimit(), "Electrical Furnace");
+        return new InvManager(new int[]{10},new ItemStack[]{burnable},new int[]{14},new ItemStack[]{burned}, getRF(), getLimit(),getProcon(), "Electrical Furnace");
     }
 
     public static ElectricalFurnace getNew(){
@@ -49,6 +49,14 @@ public class ElectricalFurnace extends Machine {
 
     @Override
     public void produce(Location loc) {
+
+        InvManager invManager = InvIndex.get(loc);
+        if (invManager != null){
+            invManager.getChange();
+            burnable = invManager.getInItems()[0];
+            burned = invManager.getOutItems()[0];
+        }
+
         if (getRF() <= 0){
             setProcon((short) 0);
             return;
@@ -83,7 +91,9 @@ public class ElectricalFurnace extends Machine {
             progress = 0;
         }
 
-
+        if (invManager != null){
+            invManager.makeChange(new ItemStack[]{burnable}, new ItemStack[]{burned}, getRF(), getLimit());
+        }
     }
 
     private void work(){
