@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,9 +18,8 @@ import java.util.*;
 
 @Getter
 @Setter
-public class InvManager {
+public class InvManager implements InventoryHolder {
     //private final static byte[] positions = {10,14,37,41};
-    public static HashMap<Location, InvManager> inventoryIndex = new HashMap<>();
     private int[] inSlots;
     private ItemStack[] inItems;
     private int[] outSlots;
@@ -31,7 +31,7 @@ public class InvManager {
         this.outSlots = outSlots;
         this.outItems = outItems;
 
-        inventory = Bukkit.createInventory(null, getTotalSlots(), name); //27, 54
+        inventory = Bukkit.createInventory(this, getTotalSlots(), name); //27, 54
         if (inSlots.length != 0){
             int count = 0;
             for (int i : inSlots){
@@ -111,8 +111,6 @@ public class InvManager {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(DisplayName);
-        //List<String> lore = new ArrayList<>();
-        //meta.setLore(lore);
         if (glow) {
             meta.addEnchant(Enchantment.LUCK, 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

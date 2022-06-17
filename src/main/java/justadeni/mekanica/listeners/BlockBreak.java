@@ -1,9 +1,7 @@
 package justadeni.mekanica.listeners;
 
-import justadeni.mekanica.inventories.InvManager;
+import justadeni.mekanica.inventories.InvIndex;
 import justadeni.mekanica.items.ItemManager;
-import justadeni.mekanica.machines.Machine;
-import justadeni.mekanica.utils.ClassHelper;
 import justadeni.mekanica.utils.files.Storage;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -30,7 +28,7 @@ public class BlockBreak implements Listener {
                 }
             }
 
-            InvManager.inventoryIndex.remove(loc);
+            InvIndex.remove(loc);
             Storage.deleteMachineFile(loc);
             Storage.removeMachine(loc);
         }

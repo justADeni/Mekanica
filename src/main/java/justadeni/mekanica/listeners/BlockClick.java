@@ -1,13 +1,10 @@
 package justadeni.mekanica.listeners;
 
-import justadeni.mekanica.Mekanica;
-import justadeni.mekanica.TaskScheduler;
+import justadeni.mekanica.inventories.InvIndex;
 import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.machines.Machine;
 import justadeni.mekanica.utils.files.Storage;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,12 +26,12 @@ public class BlockClick implements Listener {
                 if (clickAble(e.getPlayer())) {
                     Machine machine = Storage.getMachine(loc);
 
-                    if (InvManager.inventoryIndex.containsKey(loc)){
-                        p.openInventory(InvManager.inventoryIndex.get(loc).getInventory());
+                    if (InvIndex.get(loc) != null){
+                        p.openInventory(InvIndex.get(loc).getInventory());
                     } else {
                         InvManager invManager = machine.getInv();
                         p.openInventory(invManager.getInventory());
-                        InvManager.inventoryIndex.put(loc, invManager);
+                        InvIndex.put(loc, invManager);
                     }
                     e.setCancelled(true);
                 }

@@ -1,5 +1,6 @@
 package justadeni.mekanica.listeners;
 
+import justadeni.mekanica.inventories.InvIndex;
 import justadeni.mekanica.inventories.InvManager;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -12,10 +13,10 @@ public class InventoryClose implements Listener {
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent e){
-        Iterator it = InvManager.inventoryIndex.keySet().iterator();
+        Iterator it = InvIndex.getMap().keySet().iterator();
         while (it.hasNext()) {
             Location loc = (Location) it.next();
-            if (InvManager.inventoryIndex.get(loc).getInventory().equals(e.getInventory())){
+            if (InvIndex.get(loc).getInventory().equals(e.getInventory())){
                 it.remove();
             }
         }
