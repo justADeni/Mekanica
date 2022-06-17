@@ -20,16 +20,18 @@ import java.util.*;
 @Setter
 public class InvManager implements InventoryHolder {
     //private final static byte[] positions = {10,14,37,41};
+    private short procon;
     private int[] inSlots;
     private ItemStack[] inItems;
     private int[] outSlots;
     private ItemStack[] outItems;
     private Inventory inventory;
-    public InvManager(int[] inSlots, ItemStack[] inItems, int[] outSlots,ItemStack[] outItems, int RF, int limit, String name){
+    public InvManager(int[] inSlots, ItemStack[] inItems, int[] outSlots,ItemStack[] outItems, int RF, int limit, short procon, String name){
         this.inSlots = inSlots;
         this.inItems = inItems;
         this.outSlots = outSlots;
         this.outItems = outItems;
+        this.procon = procon;
 
         inventory = Bukkit.createInventory(this, getTotalSlots(), name); //27, 54
         if (inSlots.length != 0) {
@@ -75,6 +77,7 @@ public class InvManager implements InventoryHolder {
         if (getInSlots().length != 0){
             int count = 0;
             for (int i : getInSlots()){
+                setCircle("In/Out Slot", i, Material.LIGHT_BLUE_STAINED_GLASS_PANE);
                 getInventory().setItem(i,inItems[count]);
                 count++;
             }
@@ -82,6 +85,7 @@ public class InvManager implements InventoryHolder {
         if (getOutSlots().length != 0){
             int count = 0;
             for (int i : getOutSlots()){
+                setCircle("Out Slot", i, Material.RED_STAINED_GLASS_PANE);
                 getInventory().setItem(i,outItems[count]);
                 count++;
             }
@@ -98,6 +102,9 @@ public class InvManager implements InventoryHolder {
     private void setCircle(String name, int center, Material material){
 
         ItemStack item = itemMaker(name, material, false);
+        if (procon > 0){
+            item = itemMaker(name, material, true, "Progress: " + procon);
+        }
 
         inventory.setItem(center-9-1, item);
         inventory.setItem(center-9, item);
@@ -112,13 +119,16 @@ public class InvManager implements InventoryHolder {
     }
 
     private void setEnergyBar(int RF, int limit){
-        int index = (inventory.getSize()/9);
-        int greenCount = (int) Math.floor(((double) RF/limit)*index);
-        while (index > 0){
-            if (greenCount > 0) {
-                inventory.setItem((index*9)-1, itemMaker("RF: " + RF + "/" + limit, Material.GREEN_STAINED_GLASS_PANE, true));
+        int index = (inventory.getSize()/9);                //lets say 3
+        double greenCount = ((double) RF/limit)*index;      //lets say (1/2)*3 then (0.5)*2 etc
+
+        while (index > 0){                                  //of course true at first
+            if (greenCount > 0 ) {
+                inventory.setItem((index*9)-1, itemMaker("RF: " + RF + "/" + limit, Material.GREEN_STAINED_GLASS_PANE, false));
+            } else if (Math.round(greenCount) == greenCount) {
+                inventory.setItem((index*9)-1, itemMaker("RF: " + RF + "/" + limit, Material.YELLOW_STAINED_GLASS_PANE, false));
             } else {
-                inventory.setItem((index*9)-1, itemMaker("RF: " + RF + "/" + limit, Material.RED_STAINED_GLASS_PANE, true));
+                inventory.setItem((index*9)-1, itemMaker("RF: " + RF + "/" + limit, Material.RED_STAINED_GLASS_PANE, false));
             }
             index --;
             greenCount--;
@@ -126,7 +136,6 @@ public class InvManager implements InventoryHolder {
     }
 
     private void fillRest(Material material){
-        //ItemStack item = new ItemStack(material);
         for (int i = 0; i < inventory.getSize(); i++){
 
             List<Integer> slots = new ArrayList<>();
@@ -148,6 +157,21 @@ public class InvManager implements InventoryHolder {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(DisplayName);
+        if (glow) {
+            meta.addEnchant(Enchantment.LUCK, 1, true);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    private static ItemStack itemMaker(String DisplayName, Material material, boolean glow, String lore){
+        ItemStack item = new ItemStack(material);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(DisplayName);
+        List<String> list = meta.getLore();
+        list.add(lore);
+        meta.setLore(list);
         if (glow) {
             meta.addEnchant(Enchantment.LUCK, 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
