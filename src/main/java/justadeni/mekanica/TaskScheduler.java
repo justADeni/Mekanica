@@ -34,19 +34,6 @@ public class TaskScheduler {
             }
         }.runTaskTimerAsynchronously(Mekanica.getPlugin(), 20,20);
     }
-    public static void tickInventories(){
-        new BukkitRunnable() {
-            @Override
-            public void run () {
-                for (Location loc : InvIndex.getMap().keySet()){
-                    Machine machine = Storage.getMachine(loc);
-                    if (machine != null){
-
-                    }
-                }
-            }
-        }.runTaskTimerAsynchronously(Mekanica.getPlugin(), 20,20);
-    }
 
     public static void saveContinuously(){
         new BukkitRunnable() {

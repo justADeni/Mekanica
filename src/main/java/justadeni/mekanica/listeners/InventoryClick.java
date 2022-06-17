@@ -40,14 +40,14 @@ public class InventoryClick implements Listener {
             }
         }
 
-        int rawSlot = e.getSlot();
+        int slot = e.getSlot();
         InventoryAction action = e.getAction();
 
-        if (localOutSlots.contains(rawSlot)){
+        if (localOutSlots.contains(slot)){
             if (action.toString().contains("PUT") || action.toString().contains("SWAP")){
                 e.setCancelled(true);
             }
-        } else if (localInSlots.contains(rawSlot)){
+        } else if (localInSlots.contains(slot)){
 
         } else {
             e.setCancelled(true);

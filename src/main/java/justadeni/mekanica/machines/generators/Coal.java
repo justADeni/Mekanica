@@ -24,15 +24,6 @@ public class Coal extends Machine{
 
     @Override
     public InvManager getInv(Location loc){
-
-        /*
-        InvManager invManager = InvIndex.get(loc);
-        if (invManager != null){
-            invManager.refresh(new ItemStack[]{fuel},new ItemStack[]{},getRF(), getLimit());
-            return invManager;
-        }
-        */
-
         return new InvManager(new int[]{10},new ItemStack[]{fuel},new int[]{},new ItemStack[]{},getRF(), getLimit(), "Coal Generator");
     }
     public static Coal getNew(){
@@ -40,7 +31,7 @@ public class Coal extends Machine{
     }
 
     private ItemStack fuel;
-    private byte progress;
+    private int progress;
 
     public Coal( int RF, int limit, short procon, ItemStack fuel, byte progress) {
         super(RF, limit, procon);

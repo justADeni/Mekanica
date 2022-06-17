@@ -139,7 +139,7 @@ public class InvManager implements InventoryHolder {
                 continue;
 
             if (inventory.getItem(i) == null){
-                inventory.setItem(i, itemMaker("", material, false));
+                inventory.setItem(i, itemMaker(" ", material, false));
             }
         }
     }
