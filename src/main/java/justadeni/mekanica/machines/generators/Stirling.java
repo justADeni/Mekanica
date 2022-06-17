@@ -1,5 +1,6 @@
 package justadeni.mekanica.machines.generators;
 
+import justadeni.mekanica.inventories.InvIndex;
 import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
@@ -19,7 +20,12 @@ public class Stirling extends Machine {
         return new ItemManager(2,"Stirling Generator", Material.BLAST_FURNACE);
     }
     @Override
-    public InvManager getInv(){
+    public InvManager getInv(Location loc){
+
+        if (InvIndex.get(loc) != null){
+            return InvIndex.get(loc);
+        }
+
         return new InvManager(new int[]{10},new ItemStack[]{fuel},new int[]{},new ItemStack[]{},getRF(), getLimit(), "Stirling Generator");
     }
     public static Stirling getNew(){

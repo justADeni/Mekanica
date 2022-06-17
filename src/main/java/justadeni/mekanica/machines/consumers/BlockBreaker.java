@@ -1,5 +1,6 @@
 package justadeni.mekanica.machines.consumers;
 
+import justadeni.mekanica.inventories.InvIndex;
 import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
@@ -22,7 +23,12 @@ public class BlockBreaker extends Machine {
         return new ItemManager(8,"Block Breaker", Material.DROPPER);
     }
     @Override
-    public InvManager getInv(){
+    public InvManager getInv(Location loc){
+
+        if (InvIndex.get(loc) != null){
+            return InvIndex.get(loc);
+        }
+
         return new InvManager(new int[]{},new ItemStack[]{},new int[]{10},new ItemStack[]{product},getRF(), getLimit(), "Block Breaker");
     }
 

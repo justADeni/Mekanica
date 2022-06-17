@@ -29,7 +29,7 @@ public class BlockClick implements Listener {
                     if (InvIndex.get(loc) != null){
                         p.openInventory(InvIndex.get(loc).getInventory());
                     } else {
-                        InvManager invManager = machine.getInv();
+                        InvManager invManager = machine.getInv(loc);
                         p.openInventory(invManager.getInventory());
                         InvIndex.put(loc, invManager);
                     }

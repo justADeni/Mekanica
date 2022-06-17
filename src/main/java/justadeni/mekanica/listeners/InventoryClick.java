@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.InventoryHolder;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,7 +20,7 @@ public class InventoryClick implements Listener {
         if (e.getClickedInventory() == null){
             return;
         }
-        if (!(e.getClickedInventory() instanceof InvManager)){
+        if (!(e.getClickedInventory().getHolder() instanceof InvManager)){
             return;
         }
 
@@ -28,22 +29,28 @@ public class InventoryClick implements Listener {
         ArrayList<Integer> localInSlots = new ArrayList<>();
         if (invManager.getInSlots().length != 0){
             for (int i : invManager.getInSlots()){
-                localInSlots.add(invManager.getInSlots()[i]);
+                localInSlots.add(i);
             }
         }
 
         ArrayList<Integer> localOutSlots = new ArrayList<>();
-        if (invManager.getInSlots().length != 0){
+        if (invManager.getOutSlots().length != 0){
             for (int i : invManager.getOutSlots()){
-                localOutSlots.add(invManager.getOutSlots()[i]);
+                localOutSlots.add(i);
             }
         }
 
-        int rawSlot = e.getRawSlot();
+        int rawSlot = e.getSlot();
+        InventoryAction action = e.getAction();
+
         if (localOutSlots.contains(rawSlot)){
-            if (e.getAction().toString().contains("PUT") || e.getAction().toString().contains("SWAP")){
+            if (action.toString().contains("PUT") || action.toString().contains("SWAP")){
                 e.setCancelled(true);
             }
+        } else if (localInSlots.contains(rawSlot)){
+
+        } else {
+            e.setCancelled(true);
         }
     }
 

@@ -1,5 +1,6 @@
 package justadeni.mekanica.machines.consumers;
 
+import justadeni.mekanica.inventories.InvIndex;
 import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
@@ -20,7 +21,12 @@ public class ElectricalFurnace extends Machine {
         return new ItemManager(7,"Electrical Furnace", Material.FURNACE);
     }
     @Override
-    public InvManager getInv(){
+    public InvManager getInv(Location loc){
+
+        if (InvIndex.get(loc) != null){
+            return InvIndex.get(loc);
+        }
+
         return new InvManager(new int[]{10},new ItemStack[]{burnable},new int[]{14},new ItemStack[]{burned}, getRF(), getLimit(), "Electrical Furnace");
     }
 

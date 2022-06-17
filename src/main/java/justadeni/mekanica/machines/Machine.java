@@ -23,7 +23,7 @@ public abstract class Machine {
 
     public abstract ItemManager getItem();
 
-    public abstract InvManager getInv();
+    public abstract InvManager getInv(Location loc);
 
     public void addRF(int delta){
         RF += delta;

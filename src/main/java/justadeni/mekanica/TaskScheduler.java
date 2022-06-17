@@ -1,5 +1,6 @@
 package justadeni.mekanica;
 
+import justadeni.mekanica.inventories.InvIndex;
 import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.machines.Machine;
 import justadeni.mekanica.utils.ClassHelper;
@@ -26,10 +27,22 @@ public class TaskScheduler {
         new BukkitRunnable() {
             @Override
             public void run () {
-                //methods
                 for (Location loc : Storage.getAllMachines().keySet()){
                     Machine machine = Storage.getMachine(loc);
                     machine.produce(loc);
+                }
+            }
+        }.runTaskTimerAsynchronously(Mekanica.getPlugin(), 20,20);
+    }
+    public static void tickInventories(){
+        new BukkitRunnable() {
+            @Override
+            public void run () {
+                for (Location loc : InvIndex.getMap().keySet()){
+                    Machine machine = Storage.getMachine(loc);
+                    if (machine != null){
+
+                    }
                 }
             }
         }.runTaskTimerAsynchronously(Mekanica.getPlugin(), 20,20);

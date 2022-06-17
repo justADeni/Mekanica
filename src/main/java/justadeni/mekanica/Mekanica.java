@@ -31,7 +31,7 @@ public final class Mekanica extends JavaPlugin {
 
         TaskScheduler.startupIndex();
         TaskScheduler.tickMachines();
-        TaskScheduler.saveContinuously();
+        //TaskScheduler.saveContinuously();
     }
 
 

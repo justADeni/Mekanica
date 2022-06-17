@@ -32,24 +32,61 @@ public class InvManager implements InventoryHolder {
         this.outItems = outItems;
 
         inventory = Bukkit.createInventory(this, getTotalSlots(), name); //27, 54
-        if (inSlots.length != 0){
+        if (inSlots.length != 0) {
             int count = 0;
-            for (int i : inSlots){
-                setCircle("In/Out Slot",i,Material.LIGHT_BLUE_STAINED_GLASS_PANE);
-                inventory.setItem(i,inItems[count]);
+            for (int i : inSlots) {
+                setCircle("In/Out Slot", i, Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+                inventory.setItem(i, inItems[count]);
                 count++;
             }
         }
-        if (outSlots.length != 0){
+        if (outSlots.length != 0) {
             int count = 0;
-            for (int i : outSlots){
-                setCircle("Out Slot",i,Material.RED_STAINED_GLASS_PANE);
-                inventory.setItem(i,outItems[count]);
+            for (int i : outSlots) {
+                setCircle("Out Slot", i, Material.RED_STAINED_GLASS_PANE);
+                inventory.setItem(i, outItems[count]);
                 count++;
             }
         }
         setEnergyBar(RF, limit);
         fillRest(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
+    }
+
+    public void getChange(){
+        if (getInSlots().length != 0){
+            int count = 0;
+            for (int i : getInSlots()){
+                inItems[count] = getInventory().getItem(i);
+                count++;
+            }
+        }
+        if (getOutSlots().length != 0){
+            int count = 0;
+            for (int i : getOutSlots()){
+                outItems[count] = getInventory().getItem(i);
+                count++;
+            }
+        }
+    }
+    public void makeChange(ItemStack[] inItems,ItemStack[] outItems, int RF, int limit){
+        setInItems(inItems);
+        setOutItems(outItems);
+
+        if (getInSlots().length != 0){
+            int count = 0;
+            for (int i : getInSlots()){
+                getInventory().setItem(i,inItems[count]);
+                count++;
+            }
+        }
+        if (getOutSlots().length != 0){
+            int count = 0;
+            for (int i : getOutSlots()){
+                getInventory().setItem(i,outItems[count]);
+                count++;
+            }
+        }
+        setEnergyBar(RF, limit);
     }
     private int getTotalSlots(){
         int slots = 27;
