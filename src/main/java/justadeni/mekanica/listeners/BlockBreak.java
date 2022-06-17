@@ -1,5 +1,6 @@
 package justadeni.mekanica.listeners;
 
+import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.items.ItemManager;
 import justadeni.mekanica.machines.Machine;
 import justadeni.mekanica.utils.ClassHelper;
@@ -21,7 +22,7 @@ public class BlockBreak implements Listener {
         if (!(obj == null)) {
 
             //int id = ClassHelper.getIdByObject((Machine) Storage.getMachine(loc));
-            int id = ((Machine) Storage.getMachine(loc)).getItem().getId();
+            int id = (Storage.getMachine(loc)).getItem().getId();
             if (id > 0){
                 e.setDropItems(false);
                 if (!e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
@@ -29,6 +30,7 @@ public class BlockBreak implements Listener {
                 }
             }
 
+            InvManager.inventoryIndex.remove(loc);
             Storage.deleteMachineFile(loc);
             Storage.removeMachine(loc);
         }

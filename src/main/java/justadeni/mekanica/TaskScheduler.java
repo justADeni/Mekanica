@@ -1,12 +1,15 @@
 package justadeni.mekanica;
 
+import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.machines.Machine;
 import justadeni.mekanica.utils.ClassHelper;
 import justadeni.mekanica.utils.files.Storage;
 import org.bukkit.Location;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.FileNotFoundException;
+import java.util.Iterator;
 
 public class TaskScheduler {
 
@@ -14,9 +17,7 @@ public class TaskScheduler {
         new BukkitRunnable() {
             @Override
             public void run () {
-
                 ClassHelper.indexClassesItems();
-
             }
         }.runTaskAsynchronously(Mekanica.getPlugin());
     }

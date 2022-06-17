@@ -2,6 +2,7 @@ package justadeni.mekanica.utils.files;
 
 import com.google.gson.Gson;
 import justadeni.mekanica.Mekanica;
+import justadeni.mekanica.inventories.InvManager;
 import justadeni.mekanica.machines.Machine;
 import justadeni.mekanica.utils.ClassHelper;
 import justadeni.mekanica.utils.LocHelper;
@@ -96,6 +97,7 @@ public class Storage {
                         saveMachine(loc);
                         //removeMachine(loc);
                         it.remove();
+                        InvManager.inventoryIndex.remove(loc);
                     }
                 }
             }

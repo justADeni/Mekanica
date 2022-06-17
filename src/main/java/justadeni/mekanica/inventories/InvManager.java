@@ -5,19 +5,21 @@ import justadeni.mekanica.utils.ClassHelper;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
 public class InvManager {
     //private final static byte[] positions = {10,14,37,41};
+    public static HashMap<Location, InvManager> inventoryIndex = new HashMap<>();
     private int[] inSlots;
     private ItemStack[] inItems;
     private int[] outSlots;
@@ -33,7 +35,7 @@ public class InvManager {
         if (inSlots.length != 0){
             int count = 0;
             for (int i : inSlots){
-                setCircle(i,Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+                setCircle("In/Out Slot",i,Material.LIGHT_BLUE_STAINED_GLASS_PANE);
                 inventory.setItem(i,inItems[count]);
                 count++;
             }
@@ -41,7 +43,7 @@ public class InvManager {
         if (outSlots.length != 0){
             int count = 0;
             for (int i : outSlots){
-                setCircle(i,Material.RED_STAINED_GLASS_PANE);
+                setCircle("Out Slot",i,Material.RED_STAINED_GLASS_PANE);
                 inventory.setItem(i,outItems[count]);
                 count++;
             }
@@ -56,9 +58,9 @@ public class InvManager {
         }
         return slots;
     }
-    private void setCircle(int center, Material material){
+    private void setCircle(String name, int center, Material material){
 
-        ItemStack item = new ItemStack(material);
+        ItemStack item = itemMaker(name, material, false);
 
         inventory.setItem(center-9-1, item);
         inventory.setItem(center-9, item);
@@ -77,22 +79,17 @@ public class InvManager {
         int greenCount = (int) Math.floor(((double) RF/limit)*index);
         while (index > 0){
             if (greenCount > 0) {
-                inventory.setItem((index*9)-1, new ItemStack(Material.GREEN_STAINED_GLASS_PANE));
+                inventory.setItem((index*9)-1, itemMaker("RF: " + RF + "/" + limit, Material.GREEN_STAINED_GLASS_PANE, true));
             } else {
-                inventory.setItem((index*9)-1, new ItemStack(Material.RED_STAINED_GLASS_PANE));
+                inventory.setItem((index*9)-1, itemMaker("RF: " + RF + "/" + limit, Material.RED_STAINED_GLASS_PANE, true));
             }
             index --;
             greenCount--;
-            /*
-            if (index <= 0){
-                break;
-            }
-            */
         }
     }
 
     private void fillRest(Material material){
-        ItemStack item = new ItemStack(material);
+        //ItemStack item = new ItemStack(material);
         for (int i = 0; i < inventory.getSize(); i++){
 
             List<Integer> slots = new ArrayList<>();
@@ -105,14 +102,22 @@ public class InvManager {
                 continue;
 
             if (inventory.getItem(i) == null){
-                inventory.setItem(i, item);
+                inventory.setItem(i, itemMaker("", material, false));
             }
-            /*
-            if (inventory.getItem(i).getType().isAir()){
-                inventory.setItem(i, item);
-            }
-            */
         }
+    }
 
+    private static ItemStack itemMaker(String DisplayName, Material material, boolean glow){
+        ItemStack item = new ItemStack(material);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(DisplayName);
+        //List<String> lore = new ArrayList<>();
+        //meta.setLore(lore);
+        if (glow) {
+            meta.addEnchant(Enchantment.LUCK, 1, true);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+        item.setItemMeta(meta);
+        return item;
     }
 }
