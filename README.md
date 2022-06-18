@@ -1,3 +1,3 @@
 # Mekanica
-Spigot plugin focused on machines, industry, automatic sorting, conveyor belts etc.
+Made Obsolete by existence of other plugins, like Nova and Space
 
